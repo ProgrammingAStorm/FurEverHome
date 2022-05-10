@@ -35,26 +35,35 @@ const getAnimals = (data) => {
 const displayAnimals = (array) => {
     array.forEach(element => {
         let $card = $('<div>');
-        let $cardImageDiv = $('<div>');
-        let $cardFigure = $('<figure>');
-        let $image = $('<img>');
-
         $card.addClass('card');
-        $cardImageDiv.addClass('card-image');
-        $cardFigure.addClass('image is-128x128');
 
-        if (element.primary_photo_cropped === null) {
-            return
-        } else {
-            $image.attr('src', element.primary_photo_cropped.small);
-        }
+        let $cardImageDiv = getAnimalImage(element);
 
-
-        $cardFigure.append($image);
-        $cardImageDiv.append($cardFigure);
         $card.append($cardImageDiv);
         $body.append($card);
     });
+}
+
+getAnimalImage = (element) => {
+    
+    let $cardImageDiv = $('<div>');
+    let $cardFigure = $('<figure>');
+    let $image = $('<img>');
+
+    $cardImageDiv.addClass('card-image');
+    $cardFigure.addClass('image is-128x128');
+
+    if (element.primary_photo_cropped === null) {
+        return
+    } else {
+        $image.attr('src', element.primary_photo_cropped.small);
+    }
+
+
+    $cardFigure.append($image);
+    $cardImageDiv.append($cardFigure);
+    
+    return $cardImageDiv;
 }
 
 // Currently runs at refresh of page, will eventually be tied to an eventlistener on submit of search
