@@ -1,0 +1,25 @@
+img {
+    max-height: 300px;
+}
+
+#display-animals {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.card {
+    width: 300px;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.card-content {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.title {
+    flex-basis: 100%;
+    text-align: center;
+}

@@ -1,6 +1,6 @@
 const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4'
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt'
-const $body = $('body');
+const $displaySect = $('#display-animals');
 
 // Uses ID and SECRET to obtain API access token
 const getToken = () => {
@@ -33,30 +33,34 @@ const getAnimals = (data) => {
 }
 
 const displayAnimals = (array) => {
+
     array.forEach(element => {
+        
         let $card = $('<div>');
         $card.addClass('card');
 
         let $cardImageDiv = getAnimalImage(element);
+        let $cardContentDiv = getAnimalContent(element);
 
         $card.append($cardImageDiv);
-        $body.append($card);
+        $card.append($cardContentDiv);
+        $displaySect.append($card);
     });
 }
 
 getAnimalImage = (element) => {
-    
+
     let $cardImageDiv = $('<div>');
     let $cardFigure = $('<figure>');
     let $image = $('<img>');
 
     $cardImageDiv.addClass('card-image');
-    $cardFigure.addClass('image is-128x128');
+    $cardFigure.addClass('image is-square');
 
     if (element.primary_photo_cropped === null) {
         return
     } else {
-        $image.attr('src', element.primary_photo_cropped.small);
+        $image.attr('src', element.primary_photo_cropped.medium);
     }
 
 
@@ -64,6 +68,32 @@ getAnimalImage = (element) => {
     $cardImageDiv.append($cardFigure);
     
     return $cardImageDiv;
+}
+
+const getAnimalContent = (element) => {
+    let $cardContentDiv = $('<div>');
+    let $name = $('<p>');
+    let $breed = $('<p>');
+    let $age = $('<p>');
+    let $gender = $('<p>');
+
+    $cardContentDiv.addClass('card-content');
+    $name.addClass('title');
+    $breed.addClass('subtitle');
+    $age.addClass('subtitle');
+    $gender.addClass('subtitle');
+
+    $name.text(element.name);
+    $breed.text(element.breeds.primary);
+    $age.text(element.age);
+    $gender.text(element.gender);
+
+    $cardContentDiv.append($name);
+    $cardContentDiv.append($breed);
+    $cardContentDiv.append($age);
+    $cardContentDiv.append($gender);
+
+    return $cardContentDiv;
 }
 
 // Currently runs at refresh of page, will eventually be tied to an eventlistener on submit of search
