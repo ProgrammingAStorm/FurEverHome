@@ -1,7 +1,5 @@
-//im lazy lol
 const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4'
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt'
-// let TOKEN = localStorage.getItem('token')
 
 const $tokenButton = $('#get-token');
 
@@ -11,12 +9,13 @@ const getToken = () => {
         type: "POST",
         url: "https://api.petfinder.com/v2/oauth2/token",
         data: `grant_type=client_credentials&client_id=${ID}&client_secret=${SECRET}`,
-        // Upon Success, passes token information to getAnimals function.
+        // Upon Success, stores token with a key of 'token'.
         success: function(data) {
             localStorage.setItem('token', data.access_token);
         },
         dataType: "json"
       })
+    //   After completion of request, then rerun getAnimals
       .then(() => {
           getAnimals();
       });
@@ -32,9 +31,11 @@ const getAnimals = () => {
         headers: {
             Authorization: `Bearer ${TOKEN}`
         },
+        // Logs animals object if request is successful
         success: function(animals) {
             console.log(animals)
         },
+        // If request unsuccessful, run getToken to initiate or renew stored token
         error: function(error) {
             getToken()
         }
