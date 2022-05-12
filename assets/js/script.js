@@ -1,5 +1,6 @@
-const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4'
-const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt'
+const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
+const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
+const $tokenButton = $('#get-token');
 var favorites = [];
 
 //Updates favorites array, saves the array to localStorage, then updates the elements.
@@ -67,7 +68,7 @@ function loadFavorites() {
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
-//Copy-Paste Replace this comment with the original comment.
+// Uses ID and SECRET to obtain API access token
 const getToken = () => {
     $.ajax({
         type: "POST",
@@ -80,6 +81,26 @@ const getToken = () => {
         dataType: "json"
     })
 };
+// Uses token to access array of animals, will need to add location query eventually
+const getAnimals = (data) => {
+    $.ajax({
+        type: 'GET',
+        url: 'https://api.petfinder.com/v2/animals',
+        headers: {
+            Authorization: `Bearer ${data.access_token}`
+        },
+        // Logs animals object if request is successful
+        success: function(animals) {
+            console.log(animals.animals)
+        },
+        // If request unsuccessful, log error
+        error: function(error) {
+            console.log(error)
+        }
+    })
+};
+
+$tokenButton.on('click', getToken);
 
 //Loads the favorites on page-load to populate #favorites from previously saved favorites.
 loadFavorites();
@@ -115,3 +136,8 @@ $("#favorites").on("click", "button", function() {
         dataType: "json"
     })
 });
+            getAnimals(data);
+        },
+        dataType: "json"
+      })
+};
