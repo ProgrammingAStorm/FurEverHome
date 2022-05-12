@@ -1,31 +1,33 @@
-const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4'
-const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt'
+const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
+const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
+let TOKEN
 const $cardContainer = $('#card-container');
 
 const $tokenButton = $('#get-token');
 
+
 // Uses ID and SECRET to obtain API access token
 const getToken = () => {
-    $.ajax({
+        $.ajax({
         type: "POST",
         url: "https://api.petfinder.com/v2/oauth2/token",
         data: `grant_type=client_credentials&client_id=${ID}&client_secret=${SECRET}`,
         // Upon Success, stores token with a key of 'token'.
         success: function(data) {
-            getAnimals(data);
+            TOKEN = data.access_token;
         },
         dataType: "json"
       })
 };
 
 // // Uses token to access array of animals, will need to add location query eventually
-const getAnimals = (data) => {
+const getAnimals = () => {
 
     $.ajax({
         type: 'GET',
         url: 'https://api.petfinder.com/v2/animals',
         headers: {
-            Authorization: `Bearer ${data.access_token}`
+            Authorization: `Bearer ${TOKEN}`
         },
         // Logs animals object if request is successful
         success: function(animals) {
@@ -35,7 +37,8 @@ const getAnimals = (data) => {
         error: function(error) {
             console.log(error)
         }
-    })
+    })    
+
 };
 
 const displayAnimals = (array) => {
@@ -68,9 +71,13 @@ getAnimalImage = (element) => {
     $cardFigure.addClass('image is-square');
 
     if (element.primary_photo_cropped === null) {
+
         return
+
     } else {
+
         $image.attr('src', element.primary_photo_cropped.medium);
+
     }
 
 
@@ -81,6 +88,7 @@ getAnimalImage = (element) => {
 }
 
 const getAnimalContent = (element) => {
+
     let $cardContentDiv = $('<div>');
     let $cardMediaContainer = $('<div>');
     let $cardMediaContent = $('<div>');
@@ -94,7 +102,12 @@ const getAnimalContent = (element) => {
 
     $name.addClass('title is-4');
     $breed.addClass('subtitle is-6');
-    $tags.addClass('content');
+
+    if ($tags) {
+
+        $tags.addClass('content');
+
+    }
 
     $name.text(element.name);
     $breed.text(element.breeds.primary);
@@ -103,23 +116,63 @@ const getAnimalContent = (element) => {
     $cardMediaContainer.append($cardMediaContent);
     $cardMediaContent.append($name);
     $cardMediaContent.append($breed);
-    $cardContentDiv.append($tags);
+    
+    if ($tags) {
+
+        $cardContentDiv.append($tags);
+
+    }
 
     return $cardContentDiv;
 }
 
 const getAnimalTags = (element) => {
+
+    let tagsArray = element.tags;
     let $tagList = $('<div>');
+    
     $tagList.addClass('tags');
 
-    element.tags.forEach((tag) => {
-        let $tag = $('<span>');
-        $tag.addClass('tag');
-        $tag.text(tag)
-        $tagList.append($tag);
-    })
+    if (!tagsArray.length) {
 
-    return $tagList;
+        return;
+
+    } else if (tagsArray.length > 3) {
+
+        for (let i = 0; i < 3; i++) {
+
+            let $tag = $('<span>');
+
+            $tag.addClass('tag');
+            $tag.text(tagsArray[i]);
+
+            $tagList.append($tag);
+        }
+
+        return $tagList;
+
+    } else {
+
+        tagsArray.forEach((tag) => {
+
+            let $tag = $('<span>');
+
+            $tag.addClass('tag');
+            $tag.text(tag)
+
+            $tagList.append($tag);
+
+        });
+
+        return $tagList;
+
+    }
 }
-// Currently runs at refresh of page, will eventually be tied to an eventlistener on submit of search
-$tokenButton.on('click', getToken);
+// getToken runs on load, with a setInterval to overwrite each hour
+getToken() 
+
+setInterval(() => {
+    getToken()
+}, (3600 * 1000));
+
+$tokenButton.on('click', getAnimals);
