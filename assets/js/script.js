@@ -29,7 +29,7 @@ const getAnimals = (data) => {
         },
         // Logs animals object if request is successful
         success: function(animals) {
-            console.log(animals.animals)
+            displayAnimals(animals.animals)
         },
         // If request unsuccessful, log error
         error: function(error) {
