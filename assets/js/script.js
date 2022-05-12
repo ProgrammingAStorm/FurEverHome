@@ -1,6 +1,6 @@
 const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4'
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt'
-const $displaySect = $('#display-animals');
+const $cardContainer = $('#card-container');
 
 // Uses ID and SECRET to obtain API access token
 const getToken = () => {
@@ -36,15 +36,19 @@ const displayAnimals = (array) => {
 
     array.forEach(element => {
         
+        let $column = $('<div>');
+        $column.addClass('column is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen');
+
         let $card = $('<div>');
-        $card.addClass('card');
+        $card.addClass('card ml-5');
 
         let $cardImageDiv = getAnimalImage(element);
         let $cardContentDiv = getAnimalContent(element);
 
         $card.append($cardImageDiv);
         $card.append($cardContentDiv);
-        $displaySect.append($card);
+        $column.append($card)
+        $cardContainer.append($column);
     });
 }
 
@@ -72,29 +76,44 @@ getAnimalImage = (element) => {
 
 const getAnimalContent = (element) => {
     let $cardContentDiv = $('<div>');
+    let $cardMediaContainer = $('<div>');
+    let $cardMediaContent = $('<div>');
     let $name = $('<p>');
     let $breed = $('<p>');
-    let $age = $('<p>');
-    let $gender = $('<p>');
+    let $tags = getAnimalTags(element);
 
     $cardContentDiv.addClass('card-content');
-    $name.addClass('title');
-    $breed.addClass('subtitle');
-    $age.addClass('subtitle');
-    $gender.addClass('subtitle');
+    $cardMediaContainer.addClass('media');
+    $cardMediaContent.addClass('media-content');
+
+    $name.addClass('title is-4');
+    $breed.addClass('subtitle is-6');
+    $tags.addClass('content');
 
     $name.text(element.name);
     $breed.text(element.breeds.primary);
-    $age.text(element.age);
-    $gender.text(element.gender);
 
-    $cardContentDiv.append($name);
-    $cardContentDiv.append($breed);
-    $cardContentDiv.append($age);
-    $cardContentDiv.append($gender);
+    $cardContentDiv.append($cardMediaContainer);
+    $cardMediaContainer.append($cardMediaContent);
+    $cardMediaContent.append($name);
+    $cardMediaContent.append($breed);
+    $cardContentDiv.append($tags);
 
     return $cardContentDiv;
 }
 
+const getAnimalTags = (element) => {
+    let $tagList = $('<div>');
+    $tagList.addClass('tags');
+
+    element.tags.forEach((tag) => {
+        let $tag = $('<span>');
+        $tag.addClass('tag');
+        $tag.text(tag)
+        $tagList.append($tag);
+    })
+
+    return $tagList;
+}
 // Currently runs at refresh of page, will eventually be tied to an eventlistener on submit of search
 getToken()
