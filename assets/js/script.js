@@ -2,6 +2,7 @@ const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
 const $tokenButton = $('#get-token');
 var favorites = [];
+var TOKEN;
 
 //Updates favorites array, saves the array to localStorage, then updates the elements.
 function addFavorites(name, id) {
@@ -76,18 +77,18 @@ const getToken = () => {
         data: `grant_type=client_credentials&client_id=${ID}&client_secret=${SECRET}`,
         // Upon Success, stores token with a key of 'token'.
         success: function(data) {
-            localStorage.setItem('token', data.access_token);
+            TOKEN = data.access_token;
         },
         dataType: "json"
     })
 };
 // Uses token to access array of animals, will need to add location query eventually
-const getAnimals = (data) => {
+const getAnimals = () => {
     $.ajax({
         type: 'GET',
         url: 'https://api.petfinder.com/v2/animals',
         headers: {
-            Authorization: `Bearer ${data.access_token}`
+            Authorization: `Bearer ${TOKEN}`
         },
         // Logs animals object if request is successful
         success: function(animals) {
@@ -100,10 +101,15 @@ const getAnimals = (data) => {
     })
 };
 
-$tokenButton.on('click', getToken);
+$tokenButton.on('click', getAnimal);
 
 //Loads the favorites on page-load to populate #favorites from previously saved favorites.
 loadFavorites();
+
+getToken();
+
+setInterval(() => { getToken() },
+(3600 * 1000));
 
 //When the heart icon is clicked, it adds the name and ID to the favorites.
 $(".icon").on("click", function() {
@@ -118,8 +124,6 @@ $(".icon").on("click", function() {
 //When a favorites button is pressed it uses the attached ID to query the specifc animal.
 $("#favorites").on("click", "button", function() {
     getToken()
-
-    let TOKEN = localStorage.getItem('token');
 
     $.ajax({
         type: "GET",
@@ -136,7 +140,7 @@ $("#favorites").on("click", "button", function() {
         dataType: "json"
     })
 });
-            getAnimals(data);
+            getAnimals();
         },
         dataType: "json"
       })
