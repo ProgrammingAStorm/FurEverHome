@@ -41,8 +41,10 @@ const getAnimals = () => {
 
 };
 
+// Function to dynamically create cards and append them to #card-container DIV
 const displayAnimals = (array) => {
 
+    // Maps over each animal in animal array
     array.forEach(element => {
         
         let $column = $('<div>');
@@ -51,9 +53,11 @@ const displayAnimals = (array) => {
         let $card = $('<div>');
         $card.addClass('card ml-5');
 
+        // Saves returned values of each function to variables
         let $cardImageDiv = getAnimalImage(element);
         let $cardContentDiv = getAnimalContent(element);
 
+        // Build card and append to cardContainer DIV
         $card.append($cardImageDiv);
         $card.append($cardContentDiv);
         $column.append($card)
@@ -61,6 +65,7 @@ const displayAnimals = (array) => {
     });
 }
 
+// Function that returns cardImageDiv with the primary photo for the pet if one is available
 getAnimalImage = (element) => {
 
     let $cardImageDiv = $('<div>');
@@ -70,12 +75,13 @@ getAnimalImage = (element) => {
     $cardImageDiv.addClass('card-image');
     $cardFigure.addClass('image is-square');
 
+    // Check if there is a primary photo, if not return from function
     if (element.primary_photo_cropped === null) {
 
         return
 
     } else {
-
+        // If image then set image src to hyperlink
         $image.attr('src', element.primary_photo_cropped.medium);
 
     }
@@ -87,6 +93,7 @@ getAnimalImage = (element) => {
     return $cardImageDiv;
 }
 
+// Builds elements within card-content section of card
 const getAnimalContent = (element) => {
 
     let $cardContentDiv = $('<div>');
@@ -103,6 +110,7 @@ const getAnimalContent = (element) => {
     $name.addClass('title is-4');
     $breed.addClass('subtitle is-6');
 
+    // Checks to see if a tags array is true...an empty string returned to $tags is false, then adds class
     if ($tags) {
 
         $tags.addClass('content');
@@ -117,6 +125,7 @@ const getAnimalContent = (element) => {
     $cardMediaContent.append($name);
     $cardMediaContent.append($breed);
     
+    // Checks to see if $tags not an empty string
     if ($tags) {
 
         $cardContentDiv.append($tags);
@@ -126,6 +135,7 @@ const getAnimalContent = (element) => {
     return $cardContentDiv;
 }
 
+// Builds tag elements from within object
 const getAnimalTags = (element) => {
 
     let tagsArray = element.tags;
@@ -133,10 +143,12 @@ const getAnimalTags = (element) => {
     
     $tagList.addClass('tags');
 
+    // If no tags in array, then function returns empty string
     if (!tagsArray.length) {
 
         return;
 
+    // If there are more than 3 tags in array, limit the tags displayed to the first 3
     } else if (tagsArray.length > 3) {
 
         for (let i = 0; i < 3; i++) {
@@ -151,6 +163,7 @@ const getAnimalTags = (element) => {
 
         return $tagList;
 
+    // Makes a tag element for each tag in array, will trigger when (0 < array.length < 3).
     } else {
 
         tagsArray.forEach((tag) => {
