@@ -101,7 +101,7 @@ const getAnimals = () => {
     })
 };
 
-$tokenButton.on('click', getAnimal);
+$tokenButton.on('click', getAnimals);
 
 //Loads the favorites on page-load to populate #favorites from previously saved favorites.
 loadFavorites();
@@ -140,8 +140,3 @@ $("#favorites").on("click", "button", function() {
         dataType: "json"
     })
 });
-            getAnimals();
-        },
-        dataType: "json"
-      })
-};
