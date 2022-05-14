@@ -140,8 +140,3 @@ $("#favorites").on("click", "button", function() {
         dataType: "json"
     })
 });
-            getAnimals();
-        },
-        dataType: "json"
-      })
-};
