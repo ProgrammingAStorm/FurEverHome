@@ -41,5 +41,11 @@ setInterval(() => { getToken() },
 (3600 * 1000));
 
 $(".button, .is-dark").click(function () {
-    console.log($(this))
-})
+    $(".modal").addClass("is-active");
+    $("html").addClass("is-clipped");
+});
+
+$(".modal").on("click", ".modal-background, .close", function() {
+    $(this).closest(".modal").removeClass("is-active");
+    $("html").removeClass("is-clipped")
+});
