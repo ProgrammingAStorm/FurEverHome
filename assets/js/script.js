@@ -113,22 +113,56 @@ const displayAnimals = (array) => {
     array.forEach(element => {
         
         let $column = $('<div>');
-        $column.addClass('column is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen');
+        $column.addClass('column is-one-quarter-desktop is-full-touch');
 
         let $card = $('<div>');
         $card.addClass('card ml-5');
         $card.attr('data-id', element.id);
 
         // Saves returned values of each function to variables
+        let $cardHeaderHeader = getAnimalHeader(element)
         let $cardImageDiv = getAnimalImage(element);
         let $cardContentDiv = getAnimalContent(element);
+        let $cardTagsDiv = getAnimalTags(element)
 
         // Build card and append to cardContainer DIV
+        $card.append($cardHeaderHeader);
         $card.append($cardImageDiv);
         $card.append($cardContentDiv);
+
+        if ($cardTagsDiv) {
+            $cardTagsDiv.addClass('pb-1');
+            $card.append($cardTagsDiv);
+        
+        }
+
         $column.append($card)
         $cardContainer.append($column);
     });
+}
+
+// Function that returns cardHeaderHeader with animal name and favorite icon
+const getAnimalHeader = (element) => {
+
+    let $cardHeaderHeader = $('<header>');
+    let $headerTitle = $('<h3>');
+    let $iconSpan = $('<span>');
+    let $favIcon = $('<i>');
+
+    $cardHeaderHeader.addClass('card-header');
+
+    $headerTitle.addClass('card-header-title');
+    $headerTitle.text(element.name);
+
+    $iconSpan.addClass('icon');
+
+    $favIcon.addClass('fas fa-heart')
+
+    $cardHeaderHeader.append($headerTitle);
+    $cardHeaderHeader.append($iconSpan)
+    $iconSpan.append($favIcon);
+
+    return $cardHeaderHeader
 }
 
 // Function that returns cardImageDiv with the primary photo for the pet if one is available
@@ -162,52 +196,37 @@ const getAnimalImage = (element) => {
 // Builds elements within card-content section of card
 const getAnimalContent = (element) => {
 
-    let $cardContentDiv = $('<div>');
-    let $cardMediaContainer = $('<div>');
-    let $cardMediaContent = $('<div>');
-    let $name = $('<p>');
+    let $cardContentContainer = $('<div>');
+    let $cardContent = $('<div>');
+    let $flexDiv = $('<div>');
     let $breed = $('<p>');
-    let $tags = getAnimalTags(element);
+    let $gender = $('<p>');
 
-    $cardContentDiv.addClass('card-content');
-    $cardMediaContainer.addClass('media');
-    $cardMediaContent.addClass('media-content');
+    $cardContentContainer.addClass('card-content p-2');
+    $cardContent.addClass('content');
+    $flexDiv.addClass('is-flex is-justify-content-space-around');
 
-    $name.addClass('title is-4');
-    $breed.addClass('subtitle is-6');
+    $breed.addClass('subtitle is-6 m-0');
+    $gender.addClass('subtitle is-6 m-0');
 
-    // Checks to see if a tags array is true...an empty string returned to $tags is false, then adds class
-    if ($tags) {
-
-        $tags.addClass('content');
-
-    }
-
-    $name.text(element.name);
     $breed.text(element.breeds.primary);
+    $gender.text(element.gender);
 
-    $cardContentDiv.append($cardMediaContainer);
-    $cardMediaContainer.append($cardMediaContent);
-    $cardMediaContent.append($name);
-    $cardMediaContent.append($breed);
+    $cardContentContainer.append($cardContent);
+    $cardContent.append($flexDiv);
+    $flexDiv.append($breed);
+    $flexDiv.append($gender);
     
-    // Checks to see if $tags not an empty string
-    if ($tags) {
-
-        $cardContentDiv.append($tags);
-
-    }
-
-    return $cardContentDiv;
+    return $cardContentContainer;
 }
 
 // Builds tag elements from within object
 const getAnimalTags = (element) => {
-
+    let $tagsDiv = $('<div>')
     let tagsArray = element.tags;
-    let $tagList = $('<div>');
+    let $tagList = $('<ul>');
     
-    $tagList.addClass('tags');
+    $tagList.addClass('is-flex is-justify-content-space-evenly m-0');
 
     // If no tags in array, then function returns empty string
     if (!tagsArray.length) {
@@ -219,31 +238,35 @@ const getAnimalTags = (element) => {
 
         for (let i = 0; i < 3; i++) {
 
-            let $tag = $('<span>');
+            let $tag = $('<li>');
 
             $tag.addClass('tag');
+
             $tag.text(tagsArray[i]);
 
             $tagList.append($tag);
         }
 
-        return $tagList;
+        $tagsDiv.append($tagList)
+        return $tagsDiv;
 
     // Makes a tag element for each tag in array, will trigger when (0 < array.length < 3).
     } else {
 
-        tagsArray.forEach((tag) => {
+        for (let i = 0; i < tagsArray.length; i++) {
 
-            let $tag = $('<span>');
+            let $tag = $('<li>');
 
             $tag.addClass('tag');
-            $tag.text(tag)
+
+            $tag.text(tagsArray[i])
 
             $tagList.append($tag);
 
-        });
+        };
 
-        return $tagList;
+        $tagsDiv.append($tagList)
+        return $tagsDiv;
 
     }
 }
@@ -289,10 +312,7 @@ $("#favorites").on("click", "button", function() {
         dataType: "json"
     })
 });
-//         },
-//         dataType: "json"
-//       })
-// };
+
 setTimeout(() => {
     getAnimals()
-}, 1000)
+}, 1000);

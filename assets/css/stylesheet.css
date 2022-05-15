@@ -1,25 +1,29 @@
+.navBar {
+  width: 100vw;
+  height: 100px;
+  background-color: cornflowerblue;
+  font-size: 48px;
+}
+
+body {
+  background-color: snow;
+}
+
+h1 {
+  font-weight: bold;
+}
+
+nav p {
+  font-weight: bold;
+}
+
 img {
-    max-height: 300px;
+  border-color: black;
 }
+@import "./fontawesome/scss/fontawesome.scss";
+@import "./fontawesome/scss/solid.scss";
+@import "./fontawesome/scss/brands.scss";
 
-#display-animals {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.card {
-    width: 300px;
-    display: inline-block;
-    margin-bottom: 15px;
-}
-
-.card-content {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.title {
-    flex-basis: 100%;
-    text-align: center;
-}
+/* // for Duotones need both files */
+@import "./fontawesome/scss/duotone.scss";
+@import "./fontawesome/scss/_duotone-icons.scss";
