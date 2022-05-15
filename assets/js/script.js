@@ -40,12 +40,22 @@ getToken();
 setInterval(() => { getToken() },
 (3600 * 1000));
 
-$(".button, .is-dark").click(function () {
+$(".card").click(function (event) {
+    if($(event.target)[0] === $(this).find("i")[0]) {
+        return;
+    }
+
     $(".modal").addClass("is-active");
     $("html").addClass("is-clipped");
+
+    console.log($(this).attr("data-id"))
+});
+
+$(".card").on("click", "i", function() {
+    console.log($(this).closest(".card").attr("data-id"));
 });
 
 $(".modal").on("click", ".modal-background, .close", function() {
     $(this).closest(".modal").removeClass("is-active");
-    $("html").removeClass("is-clipped")
+    $("html").removeClass("is-clipped");
 });
