@@ -1,29 +1,19 @@
-.navBar {
-  width: 100vw;
-  height: 100px;
-  background-color: cornflowerblue;
-  font-size: 48px;
+.border-top {
+  border-top: solid 2px lightslategray;
 }
 
-body {
-  background-color: snow;
-}
+@media screen and (max-width: 455px) {
+  .flex-column-mobile {
+    flex-direction: column!important;
+    align-items: center!important;
+    margin: auto;
+  }
 
-h1 {
-  font-weight: bold;
-}
+  .modal address {
+    margin-top: 1.5rem;
+  }
 
-nav p {
-  font-weight: bold;
+  .modal ul {
+    margin: 1.5rem 0!important;
+  }
 }
-
-img {
-  border-color: black;
-}
-@import "./fontawesome/scss/fontawesome.scss";
-@import "./fontawesome/scss/solid.scss";
-@import "./fontawesome/scss/brands.scss";
-
-/* // for Duotones need both files */
-@import "./fontawesome/scss/duotone.scss";
-@import "./fontawesome/scss/_duotone-icons.scss";

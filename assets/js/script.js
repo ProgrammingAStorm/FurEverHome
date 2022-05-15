@@ -3,6 +3,11 @@ const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
 const $tokenButton = $('#get-token');
 var favorites = [];
 var TOKEN;
+
+function fillModal() {
+    
+}
+
 // Uses ID and SECRET to obtain API access token
 const getToken = () => {
     $.ajax({
