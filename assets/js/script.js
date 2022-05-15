@@ -95,6 +95,7 @@ const getAnimals = () => {
         },
         // Logs animals object if request is successful
         success: function(animals) {
+            console.log(animals.animals)
             displayAnimals(animals.animals)
         },
         // If request unsuccessful, log error
@@ -116,6 +117,7 @@ const displayAnimals = (array) => {
 
         let $card = $('<div>');
         $card.addClass('card ml-5');
+        $card.attr('data-id', element.id);
 
         // Saves returned values of each function to variables
         let $cardImageDiv = getAnimalImage(element);
@@ -287,8 +289,10 @@ $("#favorites").on("click", "button", function() {
         dataType: "json"
     })
 });
-            getAnimals();
 //         },
 //         dataType: "json"
 //       })
 // };
+setTimeout(() => {
+    getAnimals()
+}, 1000)
