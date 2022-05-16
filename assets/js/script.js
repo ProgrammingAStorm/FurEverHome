@@ -6,7 +6,6 @@ const $cardContainer = $('#card-container');
 var favorites = [];
 var TOKEN;
 let $animalCard = $('.card');
-let $animalModal = $('#modal-animal');
 
 //Updates favorites array, saves the array to localStorage, then updates the elements.
 function addFavorites(name, id) {
@@ -293,14 +292,30 @@ const getModalInfo = (event) => {
         },
         success: function(data) {
             console.log(data.animal);
-            // displayModalInfo(data.animal);
+            displayModalInfo(data.animal);
         },
         dataType: "json"
     })
 }
 
 const displayModalInfo = (data) => {
-    
+
+    let $animalModal = $('#modal-animal');
+    let $modalCloseBtn = $('.modal-close');
+    let $modalBackground = $('.modal-background');
+
+    $animalModal.addClass('is-active');
+
+    $modalCloseBtn.on('click', closeModal);
+    $modalBackground.on('click', closeModal);
+
+}
+
+const closeModal = () => {
+    let $modal = $('.modal');
+
+    $modal.removeClass('is-active')
+
 }
 
 // getToken runs on load, with a setInterval to overwrite each hour
