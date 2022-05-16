@@ -2,6 +2,7 @@
   border-top: solid 2px lightslategray;
 }
 
+
 @media screen and (max-width: 455px) {
   .flex-column-mobile {
     flex-direction: column!important;
@@ -16,4 +17,3 @@
   .modal ul {
     margin: 1.5rem 0!important;
   }
-}
