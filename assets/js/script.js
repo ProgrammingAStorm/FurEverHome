@@ -1,8 +1,11 @@
 const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
 const $tokenButton = $('#get-token');
+const $modal = $('.modal');
 var favorites = [];
 var TOKEN;
+
+
 
 //Updates favorites array, saves the array to localStorage, then updates the elements.
 function addFavorites(name, id) {
@@ -69,6 +72,7 @@ function loadFavorites() {
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
+
 // Uses ID and SECRET to obtain API access token
 const getToken = () => {
     $.ajax({
@@ -101,15 +105,29 @@ const getAnimals = () => {
     })
 };
 
-$tokenButton.on('click', getAnimals);
-
-//Loads the favorites on page-load to populate #favorites from previously saved favorites.
-loadFavorites();
+//!!!!!!!!!Replace the $.ajax in #favorites click listener to this function.!!!!!!!//
+async function getAnimal(id) {
+    return $.ajax({
+        type: "GET",
+        url: `https://api.petfinder.com/v2/animals/${id}`,
+        headers: {
+            Authorization: `Bearer ${TOKEN}`
+        },
+        dataType: "json"
+    });
+}
 
 getToken();
 
 setInterval(() => { getToken() },
 (3600 * 1000));
+
+
+//Refator to have a get animal function that can be passed an ID to get any animal.
+$(".card").click(function (event) {
+    if($(event.target)[0] === $(this).find("i")[0]) {
+        return;
+    }
 
 //When the heart icon is clicked, it adds the name and ID to the favorites.
 $(".icon").on("click", function() {
@@ -123,22 +141,16 @@ $(".icon").on("click", function() {
     );
 });
 
-//When a favorites button is pressed it uses the attached ID to query the specifc animal.
-$("#favorites").on("click", "button", function() {
-    getToken()
 
-    $.ajax({
-        type: "GET",
-        url: `https://api.petfinder.com/v2/animals/${$(this).attr("data-id")}`,
-        headers: {
-            Authorization: `Bearer ${TOKEN}`
-        },
-        success: function(data) {
-            /*****************************TO DO*********************************
-            *On success the data needs to be used to open and populate a modal.*
-            *******************************************************************/
-            console.log(data)
-        },
-        dataType: "json"
-    })
+    $modal.addClass("is-active");
+    $("html").addClass("is-clipped");
+});
+
+$(".card").on("click", "i", function() {
+    console.log($(this).closest(".card").attr("data-id"));
+});
+
+$modal.on("click", ".modal-background, .close", function() {
+    $modal.removeClass("is-active");
+    $("html").removeClass("is-clipped");
 });
