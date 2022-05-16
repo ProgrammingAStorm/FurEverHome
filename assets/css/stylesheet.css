@@ -1,3 +1,14 @@
+.navBar {
+  width: 100vw;
+  height: 100px;
+  background-color: cornflowerblue;
+  font-size: 48px;
+}
+
+body {
+  background-color: snow;
+}
+
 .border-top {
   border-top: solid 2px lightslategray;
 }
