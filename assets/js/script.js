@@ -2,8 +2,11 @@ const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
 const $cardContainer = $('#card-container');
 
+
 var favorites = [];
 var TOKEN;
+let $animalCard = $('.card');
+let $animalModal = $('#modal-animal');
 
 //Updates favorites array, saves the array to localStorage, then updates the elements.
 function addFavorites(name, id) {
@@ -146,6 +149,7 @@ const getAnimalHeader = (element) => {
 
     let $cardHeaderHeader = $('<header>');
     let $headerTitle = $('<h3>');
+    let $modalButton = $('<button>')
     let $iconSpan = $('<span>');
     let $favIcon = $('<i>');
 
@@ -154,12 +158,18 @@ const getAnimalHeader = (element) => {
     $headerTitle.addClass('card-header-title');
     $headerTitle.text(element.name);
 
+    $modalButton.addClass('button is-info is-small mr-5 mt-3');
+    $modalButton.text('More Info');
+    $modalButton.attr('data-id', element.id);
+    $modalButton.on('click', getModalInfo);
+
     $iconSpan.addClass('icon');
 
     $favIcon.addClass('fas fa-heart')
 
     $cardHeaderHeader.append($headerTitle);
-    $cardHeaderHeader.append($iconSpan)
+    $cardHeaderHeader.append($modalButton);
+    $cardHeaderHeader.append($iconSpan);
     $iconSpan.append($favIcon);
 
     return $cardHeaderHeader
@@ -271,6 +281,28 @@ const getAnimalTags = (element) => {
     }
 }
 
+// Function to request modal information on single animal using ID
+const getModalInfo = (event) => {
+    let animalID = event.target.dataset.id;
+    
+    $.ajax({
+        type: "GET",
+        url: `https://api.petfinder.com/v2/animals/${animalID}`,
+        headers: {
+            Authorization: `Bearer ${TOKEN}`
+        },
+        success: function(data) {
+            console.log(data.animal);
+            // displayModalInfo(data.animal);
+        },
+        dataType: "json"
+    })
+}
+
+const displayModalInfo = (data) => {
+    
+}
+
 // getToken runs on load, with a setInterval to overwrite each hour
 getToken() 
 
@@ -318,3 +350,4 @@ $("#favorites").on("click", "button", function() {
 setTimeout(() => {
     getAnimals()
 }, 1000);
+
