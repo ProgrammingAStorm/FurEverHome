@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>FurEverHome</title>
 
-
-
     <!-- Bulma and others cdn -->
     <link
       rel="stylesheet"
@@ -20,32 +18,24 @@
     />
     <script src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
 
-
-  <!-- Font Awesome link for pet icons-->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-  integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
+    <!-- Font Awesome link for pet icons-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
     <!-- link for favicon -->
-  <link rel="icon" type="image/x-icon" href="./assets/images/paw favicon.png">
-
+    <link rel="icon" type="image/x-icon" href="./assets/images/paw favicon.png">
 
     <!-- CSS file link  -->
-    <link rel="stylesheet" href="./assets/css/stylesheet.css" />
-
-
+    <link rel="stylesheet" href="./assets/css/stylesheet.css"/>
   </head>
   <body>
-
-
-     <!-- Top Navigation bar of page  -->
+    <!-- Top Navigation bar of page  -->
     <nav class="navBar p-3">
      <p class= "field is-grouped is-grouped-centered"><i class="fas fa-solid fa-cat mx-5"></i>   FurEverHome   <i class="fas fa-solid fa-dog mx-5"></i>
     </p>
     </nav>
 
-
-    <!-- Search formm/title & filter button    -->
+    <!-- Search form    -->
     <form class="">
       <h2 class="field is-grouped has-text-left has-text-weight-bold mt-5 ml-5">
         Search location for an adoptable pet:  
@@ -59,134 +49,170 @@
       />
       <button type="search" class="btn button is-dark button is-small ">Search</button>
     </form>
-    <div class="field is-grouped is-grouped-right">
-      <p class="control ">
-        <a class="button is-dark mt-5"> Filter </a>
-      </p>
-    </div>
 
-
-<!-- Style of cards -->
-
-
-
- <!-- CARD HEADER AND SUBTEXT  -->
     <section class="section">
-        <div class="columns">
-                <!-- Favorites NEEDS WORK  -->
-                
-                <div class="column is-1"><h3>Favorites</h3></div>
-
-
-
-                <!-- CARDS 1 THROUGH 4 TOP ROW  -->
+      <div class="columns is-mobile">
         
-                <div class="column">  
-                  <h1 class="title has-text-centered  is-size-2">Pets Available for Adoption<i class=" fas fa-solid fa-paw mx-5"></i></h1>        
-                  <div id="card-container" class="columns is-multiline  column is-10 is-grouped-centered is-flex is-justify-content-flex-end   ">
-        
-                  
-                    <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen">
-                      <div class="card ml-5">
-                           <p class="title is-4  has-text-centered">Pet Name</p>
-                        <div class="card-image">
-                          <figure class="image is-square">
-                            <img src="<a href="https://www.animatedimages.org/cat-dogs-202.htm"><img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" border="3" alt="animated-dog-image-0387" /></a>
-                          </figure>
-                        </div>
-                        <div class="card-content">
-                          <div class="media">
-                            <div class="media-content">
-                             
-                              <p class="subtitle is-6">Breed</p>
-                            </div>
-                          </div>
-                          <div class="content">
-                            Pet tags
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-              
-                    <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen">
-                      <div class="card ml-5">
-                          <p class="title is-4 has-text-centered">Pet Name</p>
-                        <div class="card-image">
-                          <figure class="image is-square">
-                            <img src="<a href="https://www.animatedimages.org/cat-cats-209.htm"><img src="https://www.animatedimages.org/data/media/209/animated-cat-image-0394.gif" border="3"alt="animated-cat-image-0394" /></a></a>
-                          </figure>
-                        </div>
-                        <div class="card-content">
-                          <div class="media">
-                            <div class="media-content">
-                              
-                              <p class="subtitle is-6">Breed</p>
-                            </div>
-                          </div>
-              
-                          <div class="content is-grouped-centered">
-                            Pet tags
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-              
-                    <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen">
-                            <div class="card ml-5">
-                              <p class="title is-4  has-text-centered">Pet Name</p>
-                              <div class="card-image">
-                                <figure class="image is-square">
-                                  <img src="<a href="https://www.animatedimages.org/cat-dogs-202.htm"><img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0270.gif" border="3" alt="animated-dog-image-0270" /></a>
-                                </figure>
-                              </div>
-                              <div class="card-content">
-                                <div class="media">
-                                  <div class="media-content">
-                                    
-                                    <p class="subtitle is-6">Breed</p>
-                                  </div>
-                                </div>
-                                
-                                <div class="content">
-                                  Pet tags
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="column is-half-mobile is-one-third-tablet is-one-quarter-desktop is-one-fifth-widescreen">
-                              <div class="card ml-5">
-                                  <p class="title is-4  has-text-centered">Pet Name</p>
-                                <div class="card-image">  
-                                  <figure class="image is-square">
-                                    <img src="<a href="https://www.animatedimages.org/cat-dogs-202.htm"><img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0284.gif" border="3" alt="animated-dog-image-0284" /></a>
-                                  </figure>
-                                </div>
-                                <div class="card-content">
-                                  <div class="media">
-                                    <div class="media-content">
-                                      
-                                      <p class="subtitle is-6">Breed</p>
-                                    </div>
-                                  </div>
-                                  <div class="content">
-                                    Pet tags
-                                  </div>
-                                </div>
-                              </div>
-                            </div>     
-                  </div>
-                </div>
+        <!--Responsive column sizing is super finicky.-->
+        <!--The favorites column can take 1/4 on desktop. At smaller sizes it gets too close to the cards, so at mobile width it shrinks to 2/5.-->
+        <div class="column is-one-quarter-desktop is-two-fifths-mobile">
+          <h2 class="is-size-2 is-size-5-mobile has-text-centered title">Favorites</h2>
+          <div id="favorites" class="is-flex is-flex-direction-column is-align-items-center"></div>
         </div>
-        
-    
 
+        <!--The cards are spaced well with auto-sizing until mobile lengths, then it takes too much space and needs to set to three-fifths.-->
+        <div class="column is-three-fifths-mobile">  
+          <h2 class="title has-text-centered is-size-5-mobile">
+            Pets Available for Adoption
+            <i class="fas fa-solid fa-paw mx-5"></i>
+          </h2>        
+          <div id="card-container" class="columns is-mobile is-multiline">
 
+            <!--Column sizing of the cards within the card-container is also very finicky.
+            1/4 at desktop leaves them nicely spaced out, and full at mobile leaves them one at a time and well sized.
+            But, at tablet widths, there is enough space to have them 2x2 side-by-side, but the mobile styling is in effect.
+            For some reason the tablet styling is overridden by the mobile styling even at tablet widths.-->
+            <div class="column is-one-quarter-desktop is-full-touch">
+              <!--These are only here to serve as templates for how the dynamic cards should look,
+              as well as to show off how the responsive styling looks with multiple cards.-->
+              <div class="card ml-5">
+                <header class="card-header">
+                  <h3 class="card-header-title">Pet Name</h3>
+                  <span class="icon">
+                    <i class="fas fa-heart"></i>
+                  </span>
+                </header>
+                <div class="card-image">
+                  <figure class="image is-square">
+                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
+                  </figure>
+                </div>
+                <div class="card-content p-2">
+                  <div class="content">
+                    <div class="is-flex is-justify-content-space-around">
+                      <p class="subtitle is-6 m-0">Breed</p>
+                      <p class="subtitle is-6 m-0">Gender</p>
+                    </div>
+                    
+                    <div>
+                      <ul class="is-flex is-justify-content-space-evenly m-0">
+                        <!--Only the first tag gets mt-1-->
+                        <li class="tag mt-1">tag</li>
+                        <li class="tag">tag</li>
+                        <li class="tag">tag</li>
+                      </ul>
+                    </div>
+                  </div>   
+                </div>
+              </div>
+            </div>
 
+            <div class="column is-one-quarter-desktop is-full-mobile">
+              <div class="card ml-5">
+                <header class="card-header">
+                  <h3 class="card-header-title">Pet Name</h3>
+                  <span class="icon">
+                    <i class="fas fa-heart"></i>
+                  </span>
+                </header>
+                <div class="card-image">
+                  <figure class="image is-square">
+                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
+                  </figure>
+                </div>
+                <div class="card-content p-2">
+                  <div class="content">
+                    <div class="is-flex is-justify-content-space-around">
+                      <p class="subtitle is-6 m-0">Breed</p>
+                      <p class="subtitle is-6 m-0">Gender</p>
+                    </div>
+                    
+                    <div>
+                      <ul class="is-flex is-justify-content-space-evenly m-0">
+                        <!--Only the first tag gets mt-1-->
+                        <li class="tag mt-1">tag</li>
+                        <li class="tag">tag</li>
+                        <li class="tag">tag</li>
+                      </ul>
+                    </div>
+                  </div>   
+                </div>
+              </div>
+            </div>
+            
+            <div class="column is-one-quarter-desktop is-full-mobile">
+              <div class="card ml-5">
+                <header class="card-header">
+                  <h3 class="card-header-title">Pet Name</h3>
+                  <span class="icon">
+                    <i class="fas fa-heart"></i>
+                  </span>
+                </header>
+                <div class="card-image">
+                  <figure class="image is-square">
+                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
+                  </figure>
+                </div>
+                <div class="card-content p-2">
+                  <div class="content">
+                    <div class="is-flex is-justify-content-space-around">
+                      <p class="subtitle is-6 m-0">Breed</p>
+                      <p class="subtitle is-6 m-0">Gender</p>
+                    </div>
+                    
+                    <div>
+                      <ul class="is-flex is-justify-content-space-evenly m-0">
+                        <!--Only the first tag gets mt-1-->
+                        <li class="tag mt-1">tag</li>
+                        <li class="tag">tag</li>
+                        <li class="tag">tag</li>
+                      </ul>
+                    </div>
+                  </div>   
+                </div>
+              </div>
+            </div>
 
+            <div class="column is-one-quarter-desktop is-full-mobile">
+              <div class="card ml-5">
+                <header class="card-header">
+                  <h3 class="card-header-title">Pet Name</h3>
+                  <span class="icon">
+                    <i class="fas fa-heart"></i>
+                  </span>
+                </header>
+                <div class="card-image">
+                  <figure class="image is-square">
+                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
+                  </figure>
+                </div>
+                <div class="card-content p-2">
+                  <div class="content">
+                    <div class="is-flex is-justify-content-space-around">
+                      <p class="subtitle is-6 m-0">Breed</p>
+                      <p class="subtitle is-6 m-0">Gender</p>
+                    </div>
+                    
+                    <div>
+                      <ul class="is-flex is-justify-content-space-evenly m-0">
+                        <!--Only the first tag gets mt-1-->
+                        <li class="tag mt-1">tag</li>
+                        <li class="tag">tag</li>
+                        <li class="tag">tag</li>
+                      </ul>
+                    </div>
+                  </div>   
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <footer class="has-text-weight-bold has-text-centered"><i class=" fas fa-solid fa-paw"></i> FurEverHome &copy 2022</footer>
 
-    <script src="insert js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="./assets/js/script.js"></script>
   </body>
 </html>

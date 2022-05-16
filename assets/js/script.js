@@ -21,7 +21,7 @@ function addFavorites(name, id) {
     else {
         $("#favorites").append(
             $("<button>")
-            .addClass("button is-dark")
+            .addClass("button is-dark m-2")
             .text(name)
             .attr("data-pos", favorites.length)
         );
@@ -50,7 +50,7 @@ function loadFavorites() {
         for(var x = 0; x < favorites.length; x++) {    
             $("#favorites").append(
                 $("<button>")
-                .addClass("button is-dark")
+                .addClass("button is-dark m-2")
                 .text(favorites[x].name)
                 .attr("data-pos", x)
                 //The buttons are given the ID of the pet they represent.
@@ -113,10 +113,12 @@ setInterval(() => { getToken() },
 
 //When the heart icon is clicked, it adds the name and ID to the favorites.
 $(".icon").on("click", function() {
-    var $petContent = $(this).closest(".card-content");
+    var $petContent = $(this).closest(".card");
+
+    console.log($(this).closest(".card"))
     
     addFavorites(
-        $petContent.children(".name").text(),
+        $petContent.children(".card-header").children(".card-header-title").text(),
         $petContent.attr("data-id")
     );
 });
