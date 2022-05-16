@@ -291,31 +291,46 @@ const getModalInfo = (event) => {
             Authorization: `Bearer ${TOKEN}`
         },
         success: function(data) {
-            console.log(data.animal);
-            displayModalInfo(data.animal);
+            displayModal(data.animal);
         },
         dataType: "json"
     })
 }
 
-const displayModalInfo = (data) => {
+// Funtion to display the modal and add click events to close modal
+const displayModal = (data) => {
 
     let $animalModal = $('#modal-animal');
-    let $modalCloseBtn = $('.modal-close');
+    let $modalCloseBtn = $('.delete');
     let $modalBackground = $('.modal-background');
 
     $animalModal.addClass('is-active');
+
+    generateInfo(data);
 
     $modalCloseBtn.on('click', closeModal);
     $modalBackground.on('click', closeModal);
 
 }
 
+// Removes is-active class from modal, closing the modal
 const closeModal = () => {
     let $modal = $('.modal');
 
     $modal.removeClass('is-active')
 
+}
+
+const generateInfo = (data) => {
+    
+    console.log(data);
+    let $name = $('.modal-card-title');
+    let $img = $('#modal-image');
+    let $description = $('#modal-descript');
+
+    $name.text(data.name);
+    $img.attr('src', data.primary_photo_cropped.full)
+    $description.text(data.description);
 }
 
 // getToken runs on load, with a setInterval to overwrite each hour
