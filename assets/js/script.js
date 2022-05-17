@@ -305,11 +305,10 @@ const getModalInfo = (event) => {
 // Funtion to display the modal and add click events to close modal
 const displayModal = (data) => {
 
-    let $animalModal = $('#modal-animal');
     let $modalCloseBtn = $('.delete');
     let $modalBackground = $('.modal-background');
 
-    $animalModal.addClass('is-active');
+    $modal.addClass('is-active');
 
     generateInfo(data);
 
@@ -330,13 +329,142 @@ const generateInfo = (data) => {
     
     console.log(data);
     let $name = $('.modal-card-title');
+
     let $img = $('#modal-image');
-    let $description = $('#modal-descript');
+
+    let $description = $('.description');
+    let $tags = $('.tags');
+
+    let $status = $('.status');
+    let $age = $('.age');
+    let $gender = $('.gender');
+    let $size = $('.size');
+
+    let $primaryBreed = $('#primary-breed');
+    let $secondaryBreed = $('#secondary-breed');
+    let $isMixedBreed = $('#is-mixed');
+    let $unknownBreed = $('#unknown');
+
+    let $primaryColor = $('#primary-color');
+    let $secondaryColor = $('#secondary-color');
+    let $tertiaryColor = $('#tertiary-color');
+
+    let $coat = $('.coat');
+
+    let $isDeclawed = $('#is-declawed');
+    let $isHouseTrained = $('#is-house-trained');
+    let $hasShots = $('#has-shots');
+    let $isFixed = $('#is-fixed');
+    let $isSpecialNeeds = $('#is-special-needs');
+
+    let $catEnv = $('#cat-env');
+    let $dogEnv = $('#dog-env');
+    let $childEnv = $('child-env');
+
+    let $publishDate = $('#publish-date');
+
+    let $adoptUrlBtn = $('#adopt-url');
+
+    if (data.tags) {
+        $tags.html('')
+
+        let tagsArray = data.tags;
+        tagsArray.forEach((tag) => {
+            let $tag = $('<li>');
+            $tag.addClass('tag');
+            $tag.text(tag);
+
+            $tags.append($tag);
+        })
+    }
 
     $name.text(data.name);
     $img.attr('src', data.primary_photo_cropped.full)
     $description.text(data.description);
+    $status.text(data.status);
+    $age.text(data.age);
+    $gender.text(data.gender);
+    $size.text(data.size);
+    $primaryBreed.text(data.breeds.primary);
+    
+    if (data.breeds.unknown) {
+        $primaryBreed.text('Unknown');
+        $secondaryBreed.text('Unknown');
+        $isMixedBreed.text('Unknown');
+        $unknownBreed.text('The breed of this pet is unknown');
+
+    }
+    else if (data.breeds.mixed) {
+        $secondaryBreed.text(data.breeds.secondary);
+        $isMixedBreed.text('Yes');
+        $unknownBreed.text('');
+
+    } else {
+        $secondaryBreed.text('N/A');
+        $isMixedBreed.text('No');
+        $unknownBreed.text('');
+    }
+
+    $primaryColor.text(data.colors.primary);
+    $secondaryColor.text(data.colors.secondary);
+    $tertiaryColor.text(data.colors.tertiary);
+
+    $coat.text(data.coat);
+
+    if (data.attributes.declawed) {
+        $isDeclawed.text(data.attributes.declawed);
+    } else {
+        $isDeclawed.text('N/A');
+    }
+
+    if (data.attributes.house_trained) {
+        $isHouseTrained.text('Yes');
+    } else {
+        $isHouseTrained.text('No');
+    }
+
+    if (data.attributes.spayed_neutered) {
+        $isFixed.text('Yes');
+    } else {
+        $isFixed.text('No');
+    }
+
+    if (data.attributes.shots_current) {
+        $hasShots.text('Yes');
+    } else {
+        $hasShots.text('No');
+    }
+
+    if (data.attributes.special_needs) {
+        $isSpecialNeeds.text('Yes');
+    } else {
+        $isSpecialNeeds.text('No');
+    }
+
+    if (data.environment.cats) {
+        $catEnv.text('Yes');
+    } else {
+        $catEnv.text('No');
+    }
+
+    if (data.environment.dogs) {
+        $dogEnv.text('Yes');
+    } else {
+        $dogEnv.text('No');
+    }
+
+    if (data.environment.children) {
+        $childEnv.text('Yes');
+        $childEnv.text('No');
+    }
+
+    $publishDate.text(dayjs(data.published_at).format('YYYY-MM-DD'));
+
+    $adoptUrlBtn.attr('href', data.url)
 }
+
+
+
 
 // getToken runs on load, with a setInterval to overwrite each hour
 getToken() 
