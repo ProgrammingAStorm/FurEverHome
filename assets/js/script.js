@@ -1,15 +1,18 @@
 const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
 const $cardContainer = $('#card-container');
-
-
-const $tokenButton = $('#get-token');
 const $modal = $('.modal');
+const $favDrop = $('#fav-drop');
+const $favSec = $('#fav-sec');
+const $favs = $('.favorites');
+const $window = $(window);
+const $form = $('form');
+const $main = $('main');
+
 var favorites = [];
 var TOKEN;
-let $animalCard = $('.card');
-
-
+var $animalCard = $('.card');
+var wasMobile = false
 
 //Updates favorites array, saves the array to localStorage, then updates the elements.
 function addFavorites(name, id) {
@@ -75,6 +78,36 @@ function loadFavorites() {
 }
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+function checkFavEL() {
+    if($window.width() <= 768) {
+        if(wasMobile) {
+            console.log("a")
+            return;
+        }
+
+        wasMobile = true;
+
+        $favSec.remove();
+        $form.append($favDrop);        
+
+        console.log("b")
+        return;
+    }
+
+    if(!wasMobile) {
+        console.log("c")
+        return;
+    }
+
+    wasMobile = false;
+
+    $favDrop.remove();
+    $main.prepend($favSec);    
+
+    console.log("d")
+    return;
 }
 
 // Uses ID and SECRET to obtain API access token
@@ -348,6 +381,9 @@ setInterval(() => {
 
 //Loads the favorites on page-load to populate #favorites from previously saved favorites.
 loadFavorites();
+
+checkFavEL();
+
 //!!!!!!!!!Replace the $.ajax in #favorites click listener to this function.!!!!!!!//
 async function getAnimal(id) {
     return $.ajax({
@@ -359,8 +395,6 @@ async function getAnimal(id) {
         dataType: "json"
     });
 }
-
-
 
 //Refator to have a get animal function that can be passed an ID to get any animal.
 $(".card").click(function (event) {
@@ -385,10 +419,6 @@ $(".icon").on("click", function() {
     $("html").addClass("is-clipped");
 });
 
-setTimeout(() => {
-    getAnimals()
-}, 1000);
-
 $(".card").on("click", "i", function() {
     console.log($(this).closest(".card").attr("data-id"));
 });
@@ -397,3 +427,5 @@ $modal.on("click", ".modal-background, .close", function() {
     $modal.removeClass("is-active");
     $("html").removeClass("is-clipped");
 });
+
+$window.resize(checkFavEL);
