@@ -149,6 +149,7 @@ function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
+//Checks the width of the window. Whether or not the width is within the mobile breakpoint threshold, it updates the favorites elements appropriately.
 function checkFavEL() {
     if(wasMobile === undefined) {
         if($window.width() <= 768) {    
@@ -515,4 +516,5 @@ $modal.on("click", ".modal-background, .close", function() {
     $("html").removeClass("is-clipped");
 });
 
+//Everytime the window is resized, checkFavEl() is run to update according to the window's width.
 $window.resize(checkFavEL);
