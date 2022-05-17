@@ -226,15 +226,15 @@
           <div class="content">
             <header>
               <figure class="image is-4by3">
-                <img src="https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/55597812/1/?bust=1652576252" onerror="this.src='./assets/images/clipart2339515.png';">
+                <img src="" onerror="this.src='./assets/images/clipart2339515.png';" id="modal-image">
               </figure>
 
               <ul class="tags are-large">
+                <!-- <li class="tag">tag</li>
                 <li class="tag">tag</li>
                 <li class="tag">tag</li>
                 <li class="tag">tag</li>
-                <li class="tag">tag</li>
-                <li class="tag">tag</li>
+                <li class="tag">tag</li> -->
               </ul>
 
               <p class="description is-size-5">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum quod fugit dolorum sequi blanditiis officia sit mollitia quos, assumenda repudiandae provident at dignissimos, quo temporibus delectus iure earum cum laudantium.</p>
@@ -288,22 +288,21 @@
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Primary:&nbsp;</h4>
-                  <p class="breed">Terrier</p>
+                  <p class="breed" id="primary-breed">Terrier</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Secondary:&nbsp;</h4>
-                  <p class="breed">N/A</p>
+                  <p class="breed" id="secondary-breed">N/A</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Mixed:&nbsp;</h4>
-                  <p class="breed">No</p>
+                  <p class="breed" id="is-mixed">No</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Unknown:&nbsp;</h4>
-                  <p class="breed">N/A</p>
+                  <h4 id="unknown">Unknown:&nbsp;</h4>
                 </li>
               </ul>
 
@@ -312,17 +311,17 @@
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Primary:&nbsp;</h4>
-                  <p class="color">White</p>
+                  <p id="primary-color" class="color">White</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Secondary:&nbsp;</h4>
-                  <p class="color">N/A</p>
+                  <p id="secondary-color" class="color">N/A</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Tertiary:&nbsp;</h4>
-                  <p class="color">N/A</p>
+                  <p id="tertiary-color" class="color">N/A</p>
                 </li>
               </ul>
   
@@ -338,27 +337,27 @@
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Declawed:&nbsp;</h4>
-                  <p class="attribute">No</p>
+                  <p id="is-declawed" class="attribute">No</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>House Trained:&nbsp;</h4>
-                  <p class="attribute">Yes</p>
+                  <p id="is-house-trained" class="attribute">Yes</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Shots Current:&nbsp;</h4>
-                  <p class="attribute">Yes</p>
+                  <p id="has-shots" class="attribute">Yes</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Spayed/Neutered:&nbsp;</h4>
-                  <p class="attribute">Yes</p>
+                  <p id="is-fixed" class="attribute">Yes</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Special Needs:&nbsp;</h4>
-                  <p class="attribute">No</p>
+                  <p id="is-special-needs" class="attribute">No</p>
                 </li>
               </ul>
 
@@ -367,30 +366,30 @@
                 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Cats:&nbsp;</h4>
-                  <p class="environment">Yes</p>
+                  <p id="cat-env" class="environment">Yes</p>
                 </li>
                 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Dogs:&nbsp;</h4>
-                  <p class="environment">Yes</p>
+                  <p id="dog-env" class="environment">Yes</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
                   <h4>Children:&nbsp;</h4>
-                  <p class="environment">Yes</p>
+                  <p id="child-env" class="environment">Yes</p>
                 </li>
               </ul>
             </section>
 
             <footer class="footer pb-3 pt-5 border-top">
               <h3 class="is-size-5 has-text-centered">Published:</h3>
-              <p class="publish is-size-5 has-text-weight-medium has-text-centered">2022-05-15</p>
+              <p id="publish-date" class="publish is-size-5 has-text-weight-medium has-text-centered">2022-05-15</p>
             </footer>
           </div>
         </section>
 
         <footer class="modal-card-foot is-justify-content-space-between">
-          <button class="button is-success">Adopt url</button>
+          <a id="adopt-url" class="button is-success" target="_blank">Adopt url</a>
           <button class="button close">Close</button>
         </footer>
       </div>
@@ -399,6 +398,7 @@
 
     <footer class="has-text-weight-bold has-text-centered"><i class=" fas fa-solid fa-paw"></i> FurEverHome &copy 2022</footer>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
     <script src="./assets/js/script.js"></script>
   </body>
 </html>
