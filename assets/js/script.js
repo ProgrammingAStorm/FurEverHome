@@ -1,15 +1,18 @@
 const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
 const $cardContainer = $('#card-container');
-
-
-const $tokenButton = $('#get-token');
 const $modal = $('.modal');
+const $favDrop = $('#fav-drop');
+const $favSec = $('#fav-sec');
+const $favs = $('.favorites');
+const $window = $(window);
+const $form = $('form');
+const $main = $('main');
+
 var favorites = [];
 var TOKEN;
-let $animalCard = $('.card');
-
-
+var $animalCard = $('.card');
+var wasMobile;
 
 //Updates favorites array, saves the array to localStorage, then updates the elements.
 function addFavorites(name, id) {
@@ -26,12 +29,34 @@ function addFavorites(name, id) {
         loadFavorites();
     }
     else {
-        $("#favorites").append(
-            $("<button>")
-            .addClass("button is-dark m-2")
-            .text(name)
-            .attr("data-pos", favorites.length)
-        );
+        $(".favorites").each(function() {
+            if($(this).hasClass("dropdown-content")) {
+                $(this).append(
+                    $('<div>')
+                    .addClass("dropdown-item")
+                    .attr("data-pos", favorites.length)
+                    .attr('data-id', id)
+                    .append(
+                        $("<a>")
+                        .addClass('fav-text')
+                        .text(name)
+                    )
+                );
+
+                if(favorites.length != 7) {
+                    $(this).append(
+                        $('<hr>')
+                        .addClass('dropdown-divider')
+                    )
+                }
+            }
+            $(this).append(
+                $("<button>")
+                .addClass("button is-dark m-2 fav-text")
+                .text(name)
+                .attr("data-pos", favorites.length)
+            );
+        })
 
         favorites.push({
             name: name,
@@ -43,6 +68,8 @@ function addFavorites(name, id) {
 }
 //Gets the favorites from localStorage and updates #favorites.
 function loadFavorites() {
+    //debugger
+
     favorites = JSON.parse(localStorage.getItem("favorites"))
 
     if(!favorites) {
@@ -52,29 +79,114 @@ function loadFavorites() {
         return;
     }
 
-    //If #favorites is empty then it will append a button for each element in favorites.
-    if($("#favorites").children().length === 0) {
-        for(var x = 0; x < favorites.length; x++) {    
-            $("#favorites").append(
-                $("<button>")
-                .addClass("button is-dark m-2")
-                .text(favorites[x].name)
+    if($('.favorites').hasClass('dropdown-content')) {
+        if($('.favorites').children('dropdown-item').length === 0) {
+            for(var x = 0; x < favorites.length - 1; x++) {
+                $(".favorites").append(
+                    $('<div>')
+                    .addClass("dropdown-item")
+                    .attr("data-pos", x)
+                    .attr('data-id', favorites[x].id)
+                    .append(
+                        $("<a>")
+                        .addClass('fav-text')
+                        .text(favorites[x].name)
+                    ).append(
+                        $('<hr>')
+                        .addClass('dropdown-divider')
+                    )
+                );
+            }
+
+            $(".favorites").append(
+                $('<div>')
+                .addClass("dropdown-item")
                 .attr("data-pos", x)
-                //The buttons are given the ID of the pet they represent.
-                .attr("data-id", favorites[x].id)
-            );
+                .attr('data-id', favorites[x].id)
+                .append(
+                    $("<a>")
+                    .addClass('fav-text')
+                    .text(favorites[x].name)
+                )
+            )
+        }
+        else {
+            for(var x = 0; x < favorites.length; x++) {
+                $('.dropdown-item').each(function() {
+                    $(this).attr("data-id", favorites[x].id);
+                })
+                $(".fav-text").each(function(index) {
+                    $(this).text(favorites[index].name)
+                });
+            }
         }
     }
-    //If #favorites isn't empty, it goes through each button and updates their data.
     else {
-        $(".button is-dark").each(function(index) {
-            $(this).text(favorites[index].name),
-            $(this).attr("data-id", favorites[x].id)
-        });
+        if($(".favorites").children().length === 0) {
+            for(var x = 0; x < favorites.length; x++) {    
+                $(".favorites").append(
+                    $("<button>")
+                    .addClass("button is-dark m-2 fav-text")
+                    .text(favorites[x].name)
+                    .attr("data-pos", x)
+                    .attr("data-id", favorites[x].id)
+                );
+            }
+        }
+        else{
+            for(var x = 0; x < favorites.length; x++) {
+                $('.button').each(function() {
+                    $(this).attr("data-id", favorites[x].id);
+                })
+                $(".fav-text").each(function(index) {
+                    $(this).text(favorites[index].name)
+                });
+            }
+        }
     }
 }
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
+}
+
+//Checks the width of the window. Whether or not the width is within the mobile breakpoint threshold, it updates the favorites elements appropriately.
+function checkFavEL() {
+    if(wasMobile === undefined) {
+        if($window.width() <= 768) {    
+            wasMobile = true;
+    
+            $favSec.remove();
+        }
+        else {
+            wasMobile = false;
+        
+            $favDrop.remove();
+        }
+    }
+    else {
+        if($window.width() <= 768) {
+            if(wasMobile) {
+                return;
+            }
+    
+            wasMobile = true;
+    
+            $favSec.remove();
+            $form.append($favDrop);
+        }
+        else {
+            if(!wasMobile) {
+                return;
+            }
+        
+            wasMobile = false;
+        
+            $favDrop.remove();
+            $main.prepend($favSec); 
+        }
+    }
+
+    loadFavorites();
 }
 
 // Uses ID and SECRET to obtain API access token
@@ -473,9 +585,8 @@ setInterval(() => {
     getToken()
 }, (3600 * 1000));
 
+checkFavEL();
 
-//Loads the favorites on page-load to populate #favorites from previously saved favorites.
-loadFavorites();
 //!!!!!!!!!Replace the $.ajax in #favorites click listener to this function.!!!!!!!//
 async function getAnimal(id) {
     return $.ajax({
@@ -488,7 +599,20 @@ async function getAnimal(id) {
     });
 }
 
+$(".dropdown").click(function(event) {
+    event.preventDefault();
 
+    if($(this).find(".dropdown-content").children().length === 0) {
+        return;
+    }
+
+    if($(this).hasClass("is-active")) {
+        $(this).removeClass("is-active");
+    }
+    else {
+        $(this).addClass("is-active")
+    }
+});
 
 //Refator to have a get animal function that can be passed an ID to get any animal.
 $(".card").click(function (event) {
@@ -496,10 +620,13 @@ $(".card").click(function (event) {
         return;
     }
 
-//When the heart icon is clicked, it adds the name and ID to the favorites.
-$(".icon").on("click", function() {
-    var $petContent = $(this).closest(".card");
+    $modal.addClass("is-active");
+    $("html").addClass("is-clipped");
+});
 
+//When the heart icon is clicked, it adds the name and ID to the favorites.
+$(".heart").on("click", function() {
+    var $petContent = $(this).closest(".card");
     console.log($(this).closest(".card"))
     
     addFavorites(
@@ -507,15 +634,6 @@ $(".icon").on("click", function() {
         $petContent.attr("data-id")
     );
 });
-
-
-    $modal.addClass("is-active");
-    $("html").addClass("is-clipped");
-});
-
-setTimeout(() => {
-    getAnimals()
-}, 1000);
 
 $(".card").on("click", "i", function() {
     console.log($(this).closest(".card").attr("data-id"));
@@ -525,3 +643,6 @@ $modal.on("click", ".modal-background, .close", function() {
     $modal.removeClass("is-active");
     $("html").removeClass("is-clipped");
 });
+
+//Everytime the window is resized, checkFavEl() is run to update according to the window's width.
+$window.resize(checkFavEL);
