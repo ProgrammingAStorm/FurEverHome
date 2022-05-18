@@ -68,7 +68,6 @@ function addFavorites(name, id) {
 }
 //Gets the favorites from localStorage and updates #favorites.
 function loadFavorites() {
-    //debugger
 
     favorites = JSON.parse(localStorage.getItem("favorites"))
 
@@ -144,13 +143,20 @@ function loadFavorites() {
             }
         }
     }
+
+    $('.button.fav-text, .dropdown-item').click(function() {
+        $.when( getModalInfo($(this).attr('data-id')) ).done(function() {
+            $modal.addClass("is-active");
+            $("html").addClass("is-clipped");
+        })
+    })
 }
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
 
 //Checks the width of the window. Whether or not the width is within the mobile breakpoint threshold, it updates the favorites elements appropriately.
-function checkFavEL() {
+function checkFavEls() {
     if(wasMobile === undefined) {
         if($window.width() <= 768) {    
             wasMobile = true;
@@ -190,22 +196,22 @@ function checkFavEL() {
 }
 
 // Uses ID and SECRET to obtain API access token
-const getToken = () => {
-        $.ajax({
+async function getToken() {
+    return await $.ajax({
         type: "POST",
         url: "https://api.petfinder.com/v2/oauth2/token",
         data: `grant_type=client_credentials&client_id=${ID}&client_secret=${SECRET}`,
         // Upon Success, stores token with a key of 'token'.
-        success: function(data) {
-            TOKEN = data.access_token;
+        error: function(error) {
+            console.log(error)
         },
-        dataType: "json"
+    }).then(function(data) {
+        TOKEN = data.access_token;
     })
 };
 
 // // Uses token to access array of animals, will need to add location query eventually
 const getAnimals = () => {
-
     $.ajax({
         type: 'GET',
         url: 'https://api.petfinder.com/v2/animals',
@@ -214,29 +220,49 @@ const getAnimals = () => {
         },
         // Logs animals object if request is successful
         success: function(animals) {
-            console.log(animals.animals)
-            displayAnimals(animals.animals)
+            displayAnimals(animals.animals);
+
+            $(".card").on("click", ".heart", function() {
+                var $petContent = $(this).closest(".card");
+                
+                addFavorites(
+                    $petContent.children(".card-header").children(".card-header-title").text(),
+                    $petContent.attr("data-id")
+                );
+            });
+
+            //Refator to have a get animal function that can be passed an ID to get any animal.
+            $(".card").click(function (event) {
+                if($(event.target)[0] === $(this).find("i")[0]) {
+                    return;
+                }
+
+                $.when( getModalInfo($(this).attr('data-id')) ).done(function() {
+                    $modal.addClass("is-active");
+                    $("html").addClass("is-clipped");
+                })
+            });
         },
         // If request unsuccessful, log error
         error: function(error) {
             console.log(error)
-        }
+        },
+        dataType: "json"
     })    
 
 };
 
 // Function to dynamically create cards and append them to #card-container DIV
 const displayAnimals = (array) => {
-
     // Maps over each animal in animal array
     array.forEach(element => {
         
-        let $column = $('<div>');
-        $column.addClass('column is-one-quarter-desktop is-full-touch');
+        let $column = $('<div>')
+        .addClass('column is-one-quarter-desktop is-half-mobile');
 
-        let $card = $('<div>');
-        $card.addClass('card ml-5');
-        $card.attr('data-id', element.id);
+        let $card = $('<div>')
+        .addClass('card ml-5')
+        .attr('data-id', element.id);
 
         // Saves returned values of each function to variables
         let $cardHeaderHeader = getAnimalHeader(element)
@@ -252,7 +278,6 @@ const displayAnimals = (array) => {
         if ($cardTagsDiv) {
             $cardTagsDiv.addClass('pb-1');
             $card.append($cardTagsDiv);
-        
         }
 
         $column.append($card)
@@ -262,10 +287,8 @@ const displayAnimals = (array) => {
 
 // Function that returns cardHeaderHeader with animal name and favorite icon
 const getAnimalHeader = (element) => {
-
     let $cardHeaderHeader = $('<header>');
     let $headerTitle = $('<h3>');
-    let $modalButton = $('<button>')
     let $iconSpan = $('<span>');
     let $favIcon = $('<i>');
 
@@ -274,17 +297,11 @@ const getAnimalHeader = (element) => {
     $headerTitle.addClass('card-header-title');
     $headerTitle.text(element.name);
 
-    $modalButton.addClass('button is-info is-small mr-5 mt-3');
-    $modalButton.text('More Info');
-    $modalButton.attr('data-id', element.id);
-    $modalButton.on('click', getModalInfo);
-
-    $iconSpan.addClass('icon');
+    $iconSpan.addClass('icon heart');
 
     $favIcon.addClass('fas fa-heart')
 
     $cardHeaderHeader.append($headerTitle);
-    $cardHeaderHeader.append($modalButton);
     $cardHeaderHeader.append($iconSpan);
     $iconSpan.append($favIcon);
 
@@ -296,22 +313,19 @@ const getAnimalImage = (element) => {
 
     let $cardImageDiv = $('<div>');
     let $cardFigure = $('<figure>');
-    let $image = $('<img>');
+    let $image = $('<img>')
+    .attr('onerror', "this.src='./assets/images/clipart2339515.png';");
 
     $cardImageDiv.addClass('card-image');
     $cardFigure.addClass('image is-square');
 
     // Check if there is a primary photo, if not return from function
-    if (element.primary_photo_cropped === null) {
-
-        return
-
+    if (!element.primary_photo_cropped) {
+        $image.attr('src', '');
     } else {
         // If image then set image src to hyperlink
         $image.attr('src', element.primary_photo_cropped.medium);
-
     }
-
 
     $cardFigure.append($image);
     $cardImageDiv.append($cardFigure);
@@ -398,51 +412,39 @@ const getAnimalTags = (element) => {
 }
 
 // Function to request modal information on single animal using ID
-const getModalInfo = (event) => {
-    let animalID = event.target.dataset.id;
-    
-    $.ajax({
+async function getModalInfo(id) {    
+    return await $.ajax({
         type: "GET",
-        url: `https://api.petfinder.com/v2/animals/${animalID}`,
+        url: `https://api.petfinder.com/v2/animals/${id}`,
         headers: {
             Authorization: `Bearer ${TOKEN}`
         },
-        success: function(data) {
-            displayModal(data.animal);
-        },
         dataType: "json"
-    })
+    }).then(function(data) {
+        displayModal(data.animal);
+    });
 }
 
 // Funtion to display the modal and add click events to close modal
-const displayModal = (data) => {
-
+const displayModal = (animal) => {
     let $modalCloseBtn = $('.delete');
     let $modalBackground = $('.modal-background');
 
-    $modal.addClass('is-active');
+    //$modal.addClass('is-active');
 
-    generateInfo(data);
+    generateInfo(animal);
 
-    $modalCloseBtn.on('click', closeModal);
-    $modalBackground.on('click', closeModal);
-
-}
-
-// Removes is-active class from modal, closing the modal
-const closeModal = () => {
-    let $modal = $('.modal');
-
-    $modal.removeClass('is-active')
+    //$modalCloseBtn.on('click', closeModal);
+    //$modalBackground.on('click', closeModal);
 
 }
 
 const generateInfo = (data) => {
-    
-    console.log(data);
+    console.log(data)
     let $name = $('.modal-card-title');
 
     let $img = $('#modal-image');
+    $img.attr('src', '')
 
     let $description = $('.description');
     let $tags = $('.tags');
@@ -478,8 +480,6 @@ const generateInfo = (data) => {
     let $adoptUrlBtn = $('#adopt-url');
 
     if (data.tags) {
-        $tags.html('')
-
         let tagsArray = data.tags;
         tagsArray.forEach((tag) => {
             let $tag = $('<li>');
@@ -491,7 +491,10 @@ const generateInfo = (data) => {
     }
 
     $name.text(data.name);
-    $img.attr('src', data.primary_photo_cropped.full)
+
+    if(data.primary_photo_cropped) {
+        $img.attr('src', data.primary_photo_cropped.full)
+    }    
     $description.text(data.description);
     $status.text(data.status);
     $age.text(data.age);
@@ -575,29 +578,13 @@ const generateInfo = (data) => {
     $adoptUrlBtn.attr('href', data.url)
 }
 
+checkFavEls();
 
-
-
-// getToken runs on load, with a setInterval to overwrite each hour
-getToken() 
+$.when( getToken() ).done(getAnimals);
 
 setInterval(() => {
     getToken()
 }, (3600 * 1000));
-
-checkFavEL();
-
-//!!!!!!!!!Replace the $.ajax in #favorites click listener to this function.!!!!!!!//
-async function getAnimal(id) {
-    return $.ajax({
-        type: "GET",
-        url: `https://api.petfinder.com/v2/animals/${id}`,
-        headers: {
-            Authorization: `Bearer ${TOKEN}`
-        },
-        dataType: "json"
-    });
-}
 
 $(".dropdown").click(function(event) {
     event.preventDefault();
@@ -612,31 +599,6 @@ $(".dropdown").click(function(event) {
     else {
         $(this).addClass("is-active")
     }
-});
-
-//Refator to have a get animal function that can be passed an ID to get any animal.
-$(".card").click(function (event) {
-    if($(event.target)[0] === $(this).find("i")[0]) {
-        return;
-    }
-
-    $modal.addClass("is-active");
-    $("html").addClass("is-clipped");
-});
-
-//When the heart icon is clicked, it adds the name and ID to the favorites.
-$(".heart").on("click", function() {
-    var $petContent = $(this).closest(".card");
-    console.log($(this).closest(".card"))
-    
-    addFavorites(
-        $petContent.children(".card-header").children(".card-header-title").text(),
-        $petContent.attr("data-id")
-    );
-});
-
-$(".card").on("click", "i", function() {
-    console.log($(this).closest(".card").attr("data-id"));
 });
 
 $modal.on("click", ".modal-background, .close", function() {
