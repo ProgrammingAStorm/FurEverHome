@@ -66,6 +66,7 @@ function addFavorites(name, id) {
         saveFavorites();
     }
 }
+
 //Gets the favorites from localStorage and updates #favorites.
 function loadFavorites() {
 
@@ -151,6 +152,7 @@ function loadFavorites() {
         })
     })
 }
+
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
@@ -427,16 +429,7 @@ async function getModalInfo(id) {
 
 // Funtion to display the modal and add click events to close modal
 const displayModal = (animal) => {
-    let $modalCloseBtn = $('.delete');
-    let $modalBackground = $('.modal-background');
-
-    //$modal.addClass('is-active');
-
     generateInfo(animal);
-
-    //$modalCloseBtn.on('click', closeModal);
-    //$modalBackground.on('click', closeModal);
-
 }
 
 const generateInfo = (data) => {
@@ -580,6 +573,8 @@ const generateInfo = (data) => {
 
 checkFavEls();
 
+//Refactordered getToken() to allow for this usage of $.when() to ensure the token is recieved before trying to use it.
+//This was only used for testing purposes and will be removed in future versions.
 $.when( getToken() ).done(getAnimals);
 
 setInterval(() => {
