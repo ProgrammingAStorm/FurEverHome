@@ -96,14 +96,14 @@ const getAnimals = () => {
 
     $.ajax({
         type: 'GET',
-        url: 'https://api.petfinder.com/v2/animals',
+        url: `https://api.petfinder.com/v2/animals?limit=16&page=1`,
         headers: {
             Authorization: `Bearer ${TOKEN}`
         },
         // Logs animals object if request is successful
         success: function(animals) {
-            console.log(animals.animals)
             displayAnimals(animals.animals)
+            setPagination(animals.pagination)
         },
         // If request unsuccessful, log error
         error: function(error) {
@@ -116,6 +116,7 @@ const getAnimals = () => {
 // Function to dynamically create cards and append them to #card-container DIV
 const displayAnimals = (array) => {
 
+    $cardContainer.html('');
     // Maps over each animal in animal array
     array.forEach(element => {
         
@@ -463,7 +464,67 @@ const generateInfo = (data) => {
     $adoptUrlBtn.attr('href', data.url)
 }
 
+const setPagination = (data) => {
 
+    let paginationLinks = data._links;
+    let $previous = $('.pagination-previous');
+    let $next = $('.pagination-next');
+
+    if (data.current_page === 1) {
+
+        $previous.addClass('is-disabled');
+
+    } else if (data.current_page === 2) {
+
+        $previous.removeClass('is-disabled');
+        $previous.attr('data-page', paginationLinks.previous.href);
+
+    } else {
+
+        $previous.attr('data-page', paginationLinks.previous.href);
+        
+    }
+
+    if (data.current_page === data.total_pages) {
+
+        $next.addClass('is-disabled');
+
+    } else if (data.current_page === (data.total_pages - 1)) {
+
+        $next.removeClass('is-disabled');
+        $next.attr('data-page', paginationLinks.next.href);
+
+    } else {
+
+        $next.attr('data-page', paginationLinks.next.href);
+
+    }
+
+    $previous.on('click', goToNewPage);
+    $next.on('click', goToNewPage);
+
+}
+
+const goToNewPage = function (event) {
+
+    $.ajax({
+    type: 'GET',
+    url: `https://api.petfinder.com${this.dataset.page}`,
+    headers: {
+        Authorization: `Bearer ${TOKEN}`
+    },
+    // Logs animals object if request is successful
+    success: function(animals) {
+        displayAnimals(animals.animals)
+        setPagination(animals.pagination)
+    },
+    // If request unsuccessful, log error
+    error: function(error) {
+        console.log(error)
+    }
+})    
+
+}
 
 
 // getToken runs on load, with a setInterval to overwrite each hour
