@@ -6,7 +6,7 @@ const $favDrop = $('#fav-drop');
 const $favSec = $('#fav-sec');
 const $favs = $('.favorites');
 const $window = $(window);
-const $form = $('form');
+const $formCont = $('#form-content');
 const $main = $('main');
 
 var favorites = [];
@@ -31,6 +31,13 @@ function addFavorites(name, id) {
     else {
         $(".favorites").each(function() {
             if($(this).hasClass("dropdown-content")) {
+                if(favorites.length != 0) {
+                    $(this).append(
+                        $('<hr>')
+                        .addClass('dropdown-divider')
+                    )
+                }
+
                 $(this).append(
                     $('<div>')
                     .addClass("dropdown-item")
@@ -50,12 +57,14 @@ function addFavorites(name, id) {
                     )
                 }
             }
-            $(this).append(
-                $("<button>")
-                .addClass("button is-dark m-2 fav-text")
-                .text(name)
-                .attr("data-pos", favorites.length)
-            );
+            else {
+                $(this).append(
+                    $("<button>")
+                    .addClass("button is-dark m-2 fav-text")
+                    .text(name)
+                    .attr("data-pos", favorites.length)
+                );
+            }
         })
 
         favorites.push({
@@ -68,8 +77,6 @@ function addFavorites(name, id) {
 }
 //Gets the favorites from localStorage and updates #favorites.
 function loadFavorites() {
-    //debugger
-
     favorites = JSON.parse(localStorage.getItem("favorites"))
 
     if(!favorites) {
@@ -80,7 +87,7 @@ function loadFavorites() {
     }
 
     if($('.favorites').hasClass('dropdown-content')) {
-        if($('.favorites').children('dropdown-item').length === 0) {
+        if($('.favorites').children('.dropdown-item').length === 0) {
             for(var x = 0; x < favorites.length - 1; x++) {
                 $(".favorites").append(
                     $('<div>')
@@ -144,7 +151,15 @@ function loadFavorites() {
             }
         }
     }
+
+    $('.button.fav-text, .dropdown-item').click(function() {
+        $.when( getModalInfo($(this).attr('data-id')) ).done(function() {
+            $modal.addClass("is-active");
+            $("html").addClass("is-clipped");
+        })
+    })
 }
+
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
@@ -172,7 +187,7 @@ function checkFavEL() {
             wasMobile = true;
     
             $favSec.remove();
-            $form.append($favDrop);
+            $formCont.append($favDrop);
         }
         else {
             if(!wasMobile) {
@@ -204,24 +219,48 @@ const getToken = () => {
 };
 
 // // Uses token to access array of animals, will need to add location query eventually
-const getAnimals = () => {
-
+const getAnimals = (lat, lon) => {
     $.ajax({
         type: 'GET',
         url: 'https://api.petfinder.com/v2/animals',
         headers: {
             Authorization: `Bearer ${TOKEN}`
         },
+        data : {
+            location: [
+                lat,
+                lon
+            ]
+        },
         // Logs animals object if request is successful
         success: function(animals) {
-            console.log(animals.animals)
+            console.log(animals)
             displayAnimals(animals.animals)
+
+            $(".card").on("click", ".heart", function() {
+                var $petContent = $(this).closest(".card");
+
+                addFavorites(
+                    $petContent.children(".card-header").children(".card-header-title").text(),
+                    $petContent.attr("data-id")
+                );
+            });
+            $(".card").click(function (event) {
+                if($(event.target)[0] === $(this).find("i")[0]) {
+                    return;
+                }
+
+                $.when( getModalInfo($(this).attr('data-id')) ).done(function() {
+                    $modal.addClass("is-active");
+                    $("html").addClass("is-clipped");
+                })
+            });
         },
         // If request unsuccessful, log error
         error: function(error) {
             console.log(error)
         }
-    })    
+    });    
 
 };
 
@@ -235,7 +274,7 @@ const displayAnimals = (array) => {
         $column.addClass('column is-one-quarter-desktop is-full-touch');
 
         let $card = $('<div>');
-        $card.addClass('card ml-5');
+        $card.addClass('card');
         $card.attr('data-id', element.id);
 
         // Saves returned values of each function to variables
@@ -265,7 +304,6 @@ const getAnimalHeader = (element) => {
 
     let $cardHeaderHeader = $('<header>');
     let $headerTitle = $('<h3>');
-    let $modalButton = $('<button>')
     let $iconSpan = $('<span>');
     let $favIcon = $('<i>');
 
@@ -274,17 +312,11 @@ const getAnimalHeader = (element) => {
     $headerTitle.addClass('card-header-title');
     $headerTitle.text(element.name);
 
-    $modalButton.addClass('button is-info is-small mr-5 mt-3');
-    $modalButton.text('More Info');
-    $modalButton.attr('data-id', element.id);
-    $modalButton.on('click', getModalInfo);
-
-    $iconSpan.addClass('icon');
+    $iconSpan.addClass('icon heart');
 
     $favIcon.addClass('fas fa-heart')
 
     $cardHeaderHeader.append($headerTitle);
-    $cardHeaderHeader.append($modalButton);
     $cardHeaderHeader.append($iconSpan);
     $iconSpan.append($favIcon);
 
@@ -296,16 +328,15 @@ const getAnimalImage = (element) => {
 
     let $cardImageDiv = $('<div>');
     let $cardFigure = $('<figure>');
-    let $image = $('<img>');
+    let $image = $('<img>')
+    .attr('onerror', "this.src='./assets/images/clipart2339515.png';");
 
     $cardImageDiv.addClass('card-image');
     $cardFigure.addClass('image is-square');
 
     // Check if there is a primary photo, if not return from function
-    if (element.primary_photo_cropped === null) {
-
-        return
-
+    if (!element.primary_photo_cropped) {
+        $image.attr('src', '');
     } else {
         // If image then set image src to hyperlink
         $image.attr('src', element.primary_photo_cropped.medium);
@@ -398,51 +429,31 @@ const getAnimalTags = (element) => {
 }
 
 // Function to request modal information on single animal using ID
-const getModalInfo = (event) => {
-    let animalID = event.target.dataset.id;
-    
-    $.ajax({
+async function getModalInfo(id) {  
+    return await $.ajax({
         type: "GET",
-        url: `https://api.petfinder.com/v2/animals/${animalID}`,
+        url: `https://api.petfinder.com/v2/animals/${id}`,
         headers: {
             Authorization: `Bearer ${TOKEN}`
         },
-        success: function(data) {
-            displayModal(data.animal);
-        },
         dataType: "json"
-    })
+    }).then(function(data) {
+        displayModal(data.animal);
+    });
 }
 
 // Funtion to display the modal and add click events to close modal
 const displayModal = (data) => {
 
-    let $modalCloseBtn = $('.delete');
-    let $modalBackground = $('.modal-background');
-
-    $modal.addClass('is-active');
-
     generateInfo(data);
-
-    $modalCloseBtn.on('click', closeModal);
-    $modalBackground.on('click', closeModal);
-
-}
-
-// Removes is-active class from modal, closing the modal
-const closeModal = () => {
-    let $modal = $('.modal');
-
-    $modal.removeClass('is-active')
 
 }
 
 const generateInfo = (data) => {
-    
-    console.log(data);
     let $name = $('.modal-card-title');
 
     let $img = $('#modal-image');
+    $img.attr('src', '');
 
     let $description = $('.description');
     let $tags = $('.tags');
@@ -462,6 +473,12 @@ const generateInfo = (data) => {
     let $tertiaryColor = $('#tertiary-color');
 
     let $coat = $('.coat');
+
+    $('#street').text(data.contact.address.address1);
+    $('#city-state').text(data.contact.address.city + " " + data.contact.address.state);
+    $('#zip').text(data.contact.address.postcode);
+    $('#phone').text(data.contact.phone);
+    $('#email').text(data.contact.email);
 
     let $isDeclawed = $('#is-declawed');
     let $isHouseTrained = $('#is-house-trained');
@@ -491,7 +508,9 @@ const generateInfo = (data) => {
     }
 
     $name.text(data.name);
-    $img.attr('src', data.primary_photo_cropped.full)
+    if(data.primary_photo_cropped) {
+        $img.attr('src', data.primary_photo_cropped.full);
+    }    
     $description.text(data.description);
     $status.text(data.status);
     $age.text(data.age);
@@ -575,8 +594,15 @@ const generateInfo = (data) => {
     $adoptUrlBtn.attr('href', data.url)
 }
 
+search_api.create("search", {
+    on_result: function(data) {
+        getAnimals(data.result.properties.lat, data.result.properties.lon)
+    }
+})
 
+checkFavEL();
 
+//$('#search').click(getAnimals)
 
 // getToken runs on load, with a setInterval to overwrite each hour
 getToken() 
@@ -584,8 +610,6 @@ getToken()
 setInterval(() => {
     getToken()
 }, (3600 * 1000));
-
-checkFavEL();
 
 //!!!!!!!!!Replace the $.ajax in #favorites click listener to this function.!!!!!!!//
 async function getAnimal(id) {
