@@ -148,7 +148,6 @@ function loadFavorites() {
 function saveFavorites() {
     localStorage.setItem("favorites", JSON.stringify(favorites));
 }
-
 //Checks the width of the window. Whether or not the width is within the mobile breakpoint threshold, it updates the favorites elements appropriately.
 function checkFavEL() {
     if(wasMobile === undefined) {
@@ -188,7 +187,6 @@ function checkFavEL() {
 
     loadFavorites();
 }
-
 // Uses ID and SECRET to obtain API access token
 const getToken = () => {
         $.ajax({
@@ -202,7 +200,6 @@ const getToken = () => {
         dataType: "json"
     })
 };
-
 // // Uses token to access array of animals, will need to add location query eventually
 const getAnimals = () => {
 
@@ -224,7 +221,6 @@ const getAnimals = () => {
     })    
 
 };
-
 // Function to dynamically create cards and append them to #card-container DIV
 const displayAnimals = (array) => {
 
@@ -258,8 +254,7 @@ const displayAnimals = (array) => {
         $column.append($card)
         $cardContainer.append($column);
     });
-}
-
+};
 // Function that returns cardHeaderHeader with animal name and favorite icon
 const getAnimalHeader = (element) => {
 
@@ -289,8 +284,7 @@ const getAnimalHeader = (element) => {
     $iconSpan.append($favIcon);
 
     return $cardHeaderHeader
-}
-
+};
 // Function that returns cardImageDiv with the primary photo for the pet if one is available
 const getAnimalImage = (element) => {
 
@@ -317,8 +311,7 @@ const getAnimalImage = (element) => {
     $cardImageDiv.append($cardFigure);
     
     return $cardImageDiv;
-}
-
+};
 // Builds elements within card-content section of card
 const getAnimalContent = (element) => {
 
@@ -344,8 +337,7 @@ const getAnimalContent = (element) => {
     $flexDiv.append($gender);
     
     return $cardContentContainer;
-}
-
+};
 // Builds tag elements from within object
 const getAnimalTags = (element) => {
     let $tagsDiv = $('<div>')
@@ -395,8 +387,7 @@ const getAnimalTags = (element) => {
         return $tagsDiv;
 
     }
-}
-
+};
 // Function to request modal information on single animal using ID
 const getModalInfo = (event) => {
     let animalID = event.target.dataset.id;
@@ -412,8 +403,7 @@ const getModalInfo = (event) => {
         },
         dataType: "json"
     })
-}
-
+};
 // Funtion to display the modal and add click events to close modal
 const displayModal = (data) => {
 
@@ -427,16 +417,14 @@ const displayModal = (data) => {
     $modalCloseBtn.on('click', closeModal);
     $modalBackground.on('click', closeModal);
 
-}
-
+};
 // Removes is-active class from modal, closing the modal
 const closeModal = () => {
     let $modal = $('.modal');
 
     $modal.removeClass('is-active')
 
-}
-
+};
 const generateInfo = (data) => {
     
     console.log(data);
@@ -575,8 +563,7 @@ const generateInfo = (data) => {
     $adoptUrlBtn.attr('href', data.url)
 }
 
-
-
+checkFavEL();
 
 // getToken runs on load, with a setInterval to overwrite each hour
 getToken() 
@@ -584,8 +571,6 @@ getToken()
 setInterval(() => {
     getToken()
 }, (3600 * 1000));
-
-checkFavEL();
 
 //!!!!!!!!!Replace the $.ajax in #favorites click listener to this function.!!!!!!!//
 async function getAnimal(id) {
