@@ -1,12 +1,5 @@
-.navBar {
-  width: 100vw;
-  height: 100px;
-  background-color: cornflowerblue;
-  font-size: 48px;
-}
-
-body {
-  background-color: snow;
+.border {
+  border: solid 2px cornflowerblue;
 }
 
 .border-top {
