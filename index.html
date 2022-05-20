@@ -71,7 +71,7 @@
           </div>
   
           <div class="dropdown-menu" id="dropdown-menu2">
-            <div class="dropdown-content favorites">
+            <div class="dropdown-content has-background-info-light border border-radius favorites">
   
             </div>
           </div>
@@ -89,24 +89,26 @@
         </div>
 
         <!--The cards are spaced well with auto-sizing until mobile lengths, then it takes too much space and needs to set to three-fifths.-->
-        <div class="column is-four-fifths-desktop is-full-mobile is-flex is-flex-direction-column is-justify-content-space-between py-0 px-3">  
-          <h2 class="title is-flex is-justify-content-center is-size-5-mobile">
+        <div class="column is-four-fifths-desktop is-full-mobile is-flex is-flex-direction-column py-0 px-3">  
+          <h2 class="title is-flex is-justify-content-center is-align-self-flex-end is-size-5-mobile">
             <i class="fas fa-solid fa-paw"></i>
               <p class="m-0">Pets Available for Adoption</p>
             <i class="fas fa-solid fa-paw"></i>
           </h2>
+        
+          <div class="content border border-radius">
+            <nav class="pagination" role="navigation" aria-label="pagination">
+              <a class="pagination-previous button is-warning is-light">Previous</a>
+              <a class="pagination-next button is-warning is-light">Next Page</a>
+            </nav>
 
-          <nav class="pagination" role="navigation" aria-label="pagination">
-            <a class="pagination-previous">Previous</a>
-            <a class="pagination-next">Next Page</a>
-          </nav>
-        
-          <div id="card-container" class="columns is-mobile is-multiline m-0 border border-radius"></div>
-        
-          <nav class="pagination" role="navigation" aria-label="pagination">
-            <a class="pagination-previous">Previous</a>
-            <a class="pagination-next">Next Page</a>
-          </nav>  
+            <div id="card-container" class="columns is-mobile is-multiline m-0"></div>
+
+            <nav class="pagination" role="navigation" aria-label="pagination">
+              <a class="pagination-previous button is-warning is-light">Previous</a>
+              <a class="pagination-next button is-warning is-light">Next Page</a>
+            </nav>
+          </div>
         </div>
       </main>
     </section>
@@ -290,7 +292,7 @@
           <button class="button close">Close</button>
         </footer>
       </div>
-    </div>
+    </section>
 
     <footer class="footer has-text-weight-bold has-text-centered pb-6"><i class="fas fa-solid fa-paw"></i> FurEverHome &copy 2022</footer>
     

@@ -1,5 +1,8 @@
+//Data Constants
 const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
 const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
+
+//JQ Connstants
 const $cardContainer = $('#card-container');
 const $modal = $('.modal');
 const $favDrop = $('#fav-drop');
@@ -9,9 +12,12 @@ const $window = $(window);
 const $formCont = $('#form-content');
 const $main = $('main');
 
+//JQ Variable
+var $animalCard = $('.card');
+
+//Data Variables
 var favorites = [];
 var TOKEN;
-var $animalCard = $('.card');
 var wasMobile;
 
 //Checks the width of the window. Whether or not the width is within the mobile breakpoint threshold, it updates the favorites elements appropriately.
@@ -53,7 +59,6 @@ function checkFavEL() {
 
     loadFavorites();
 }
-
 // Uses ID and SECRET to obtain API access token
 function getToken() {
     $.ajax({
@@ -95,7 +100,7 @@ function addFavorites(name, id, distance) {
 
                 $(this).append(
                     $('<div>')
-                    .addClass("dropdown-item")
+                    .addClass("dropdown-item button is-link is-light")
                     .attr("data-pos", favorites.length)
                     .attr('data-id', id)
                     .attr('data-dis', distance)
@@ -148,7 +153,7 @@ function loadFavorites() {
             for(var x = 0; x < favorites.length - 1; x++) {
                 $(".favorites").append(
                     $('<div>')
-                    .addClass("dropdown-item")
+                    .addClass("dropdown-item button is-link is-light")
                     .attr("data-pos", x)
                     .attr('data-id', favorites[x].id)
                     .attr('data-dis', favorites[x].distance)
@@ -165,7 +170,7 @@ function loadFavorites() {
 
             $(".favorites").append(
                 $('<div>')
-                .addClass("dropdown-item")
+                .addClass("dropdown-item button is-link is-light")
                 .attr("data-pos", x)
                 .attr('data-id', favorites[x].id)
                 .attr('data-dis', favorites[x].distance)
@@ -412,68 +417,6 @@ async function getModalInfo(id, dis) {
     }
 }
 
-const setPagination = (data) => {
-
-    let paginationLinks = data._links;
-    let $previous = $('.pagination-previous');
-    let $next = $('.pagination-next');
-
-    if (data.current_page === 1) {
-
-        $previous.addClass('is-disabled');
-
-    } else if (data.current_page === 2) {
-
-        $previous.removeClass('is-disabled');
-        $previous.attr('data-page', paginationLinks.previous.href);
-
-    } else {
-
-        $previous.attr('data-page', paginationLinks.previous.href);
-        
-    }
-
-    if (data.current_page === data.total_pages) {
-
-        $next.addClass('is-disabled');
-
-    } else if (data.current_page === (data.total_pages - 1)) {
-
-        $next.removeClass('is-disabled');
-        $next.attr('data-page', paginationLinks.next.href);
-
-    } else {
-
-        $next.attr('data-page', paginationLinks.next.href);
-
-    }
-
-    $previous.on('click', goToNewPage);
-    $next.on('click', goToNewPage);
-
-}
-
-const goToNewPage = function (event) {
-
-    $.ajax({
-    type: 'GET',
-    url: `https://api.petfinder.com${this.dataset.page}`,
-    headers: {
-        Authorization: `Bearer ${TOKEN}`
-    },
-    // Logs animals object if request is successful
-    success: function(animals) {
-        displayAnimals(animals.animals)
-        setPagination(animals.pagination)
-    },
-    // If request unsuccessful, log error
-    error: function(error) {
-        console.log(error)
-    }
-})    
-
-}
-
 search_api.create("search", {
     on_result: function(data) {
         getAnimals(data.result.properties.Lat, data.result.properties.Lon)
@@ -487,11 +430,14 @@ search_api.create("search", {
                 },
                 data: {
                     location: `${lat},${lon}`,
-                    distance: 10
+                    distance: 10,
+                    limit: 16,
+                    page: 1
                 },
                 // Logs animals object if request is successful
                 success: function (animals) {
                     displayAnimals(animals.animals);
+                    setPagination(animals.pagination)
 
                     $(".card").click(function (event) {
                         if ($(event.target)[0] === $(this).find("i")[0]) {
@@ -563,15 +509,14 @@ search_api.create("search", {
 
                 // Function that returns cardHeaderHeader with animal name and favorite icon
                 function getAnimalHeader(element) {
-
                     let $cardHeaderHeader = $('<header>');
                     let $headerTitle = $('<h3>');
                     let $iconSpan = $('<span>');
                     let $favIcon = $('<i>');
 
-                    $cardHeaderHeader.addClass('card-header');
+                    $cardHeaderHeader.addClass('card-header flex-column-mobile');
 
-                    $headerTitle.addClass('card-header-title');
+                    $headerTitle.addClass('card-header-title is-size-6-mobile');
                     $headerTitle.text(element.name);
 
                     $iconSpan.addClass('icon heart');
@@ -686,6 +631,65 @@ search_api.create("search", {
                     }
                 }
             }
+
+            //Sets the page buttons to the links returned from the API.
+            function setPagination(data) {
+                let paginationLinks = data._links;
+                let $previous = $('.pagination-previous');
+                let $next = $('.pagination-next');
+            
+                if (data.current_page === 1) {
+            
+                    $previous.addClass('is-disabled');
+            
+                } else if (data.current_page === 2) {
+            
+                    $previous.removeClass('is-disabled');
+                    $previous.attr('data-page', paginationLinks.previous.href);
+            
+                } else {
+            
+                    $previous.attr('data-page', paginationLinks.previous.href);
+            
+                }
+            
+                if (data.current_page === data.total_pages) {
+            
+                    $next.addClass('is-disabled');
+            
+                } else if (data.current_page === (data.total_pages - 1)) {
+            
+                    $next.removeClass('is-disabled');
+                    $next.attr('data-page', paginationLinks.next.href);
+            
+                } else {
+            
+                    $next.attr('data-page', paginationLinks.next.href);
+            
+                }
+            
+                $previous.on('click', goToNewPage);
+                $next.on('click', goToNewPage);
+            }
+            //Queries the API for more pages.
+            function goToNewPage() {
+                $.ajax({
+                    type: 'GET',
+                    url: `https://api.petfinder.com${this.dataset.page}`,
+                    headers: {
+                        Authorization: `Bearer ${TOKEN}`
+                    },
+                    // Logs animals object if request is successful
+                    success: function(animals) {
+                        displayAnimals(animals.animals)
+                        setPagination(animals.pagination)
+                    },
+                    // If request unsuccessful, log error
+                    error: function(error) {
+                        console.log(error)
+                    }
+                })
+            }
         }
     }
 })
@@ -715,7 +719,7 @@ $(".dropdown").click(function(event) {
         $(this).addClass("is-active")
     }
 });
-
+//Clears the favorites
 $('#clear').click(function(event) {
     event.preventDefault();
     

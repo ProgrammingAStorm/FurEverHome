@@ -27,6 +27,11 @@
     align-items: center!important;
   }
 
+  .card-header-title {
+    margin: 0!important;
+    padding: 0.325rem 0.5rem!important;
+  }
+
   .modal address {
     margin-top: 1.5rem;
   }
