@@ -42,7 +42,6 @@
   </head>
 
   <body>
-    <!-- Top Navigation bar of page  -->
     <header class="has-background-info  p-5">
       <p class= "field is-grouped is-grouped-centered has-text-weight-semibold is-size-1 is-size-3-mobile">
         <i class="fas fa-solid fa-cat mr-1"></i>
@@ -51,18 +50,20 @@
      </p>
     </header>
  
-    <form class="is-flex is-flex-direction-column is-align-items-flex-start p-1 mt-4">
-      <div id="form-content" class="content is-flex is-flex-direction-column is-align-items-center border p-1">
+    <form class="is-flex is-flex-direction-column is-align-items-flex-start align-items-center-mobile p-1 mt-4">
+      <div id="form-content" class="content is-flex is-flex-direction-column is-align-items-center border border-radius p-1">
         <h2 class="field has-text-centered has-text-weight-bold is-size-3 is-size-5-mobile">
           Search location for an adoptable pet:  
         </h2>
   
         <div id="search" class="mb-3"></div>
+
+        <button id="clear" class="button is-danger is-light is-size-5 mb-3">Clear Favorites</button>
   
         <div id="fav-drop" class="dropdown">
           <div class="dropdown-trigger">
-            <button class="button">
-              <span>Favorites</span>
+            <button class="button is-primary is-light">
+              <span class="is-size-5">Favorites</span>
               <span class="icon is-small">
                 <i class="fas fa-angle-down"></i>
               </span>
@@ -78,26 +79,24 @@
       </div>
     </form>
  
-    <section class="section p-1">
+    <section class="section p-1 mt-2">
       <main class="columns is-mobile is-justify-content-space-between m-auto">
-        <div id="fav-sec" class="column is-one-fifth p-0">
-          <div class="border">
-            <div class="is-flex is-flex-direction-column is-align-items-center mx-3">
-              <h2 class="is-size-2 is-size-5-mobile has-text-centered title">Favorites</h2>
-              <div class="favorites is-flex is-flex-direction-column is-align-items-center"></div>
-            </div>
+        <div id="fav-sec" class="column is-one-fifth border-padding">
+          <div class="is-flex is-flex-direction-column is-align-items-center border border-radius">
+            <h2 class="is-size-2 is-size-5-mobile has-text-centered title">Favorites</h2>
+            <div class="favorites is-flex is-flex-direction-column is-align-items-center"></div>
           </div>
         </div>
 
         <!--The cards are spaced well with auto-sizing until mobile lengths, then it takes too much space and needs to set to three-fifths.-->
-        <div class="column is-four-fifths-desktop is-full-mobile is-flex is-flex-direction-column py-0 px-3">  
+        <div class="column is-four-fifths-desktop is-full-mobile is-flex is-flex-direction-column is-justify-content-space-between py-0 px-3">  
           <h2 class="title is-flex is-justify-content-center is-size-5-mobile">
             <i class="fas fa-solid fa-paw"></i>
               <p class="m-0">Pets Available for Adoption</p>
             <i class="fas fa-solid fa-paw"></i>
           </h2>
 
-          <div id="card-container" class="columns is-mobile is-multiline is-flex-grow-5 m-0 border"></div>
+          <div id="card-container" class="columns is-mobile is-multiline m-0 border border-radius"></div>
         </div>
       </main>
     </section>
@@ -127,10 +126,10 @@
               <p class="description is-size-5">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum quod fugit dolorum sequi blanditiis officia sit mollitia quos, assumenda repudiandae provident at dignissimos, quo temporibus delectus iure earum cum laudantium.</p>
 
               <div class="is-flex flex-column-mobile is-justify-content-space-evenly pb-4">
-                <!--<div class="is-flex is-size-6 is-align-items-center">
+                <div class="is-flex is-size-6 is-align-items-center">
                   <h3 class="m-0">Distance:&nbsp;</h2>
                   <p class="distance has-text-weight-medium m-0">1.5km</p>
-                </div>-->
+                </div>
 
                 <div class="is-flex is-size-6 is-align-items-center">
                   <h3 class="m-0">Status:&nbsp;</h2>
@@ -157,14 +156,14 @@
                 </div>                
               </div>
 
-              <address class="contact is-flex is-flex-direction-column is-justify-content-space-between">
+              <address class="contact is-flex is-flex-direction-column is-align-items-center">
                 <h1>Contact Info</h1>
                 <div class="is-size-5 has-text-centered has-text-weight-medium">
-                  <p id="street">street</p>
-                  <p id="city-state">city state</p>
-                  <p id="zip">zip</p> 
-                  <p id="phone">phone</p>
-                  <a id="email" href="mailto:">email</a>
+                  <p id="street" class="m-0">street</p>
+                  <p id="city-state" class="m-0">city state</p>
+                  <p id="zip" class="m-0">zip</p> 
+                  <p id="phone" class="m-0">phone</p>
+                  <a id="email" class="m-0" href="mailto:">email</a>
                 </div>
               </address>
             </section>
@@ -174,22 +173,22 @@
                 <h3 class="is-size-5 has-text-centered">Breed</h3>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Primary:&nbsp;</h4>
+                  <h4 class="m-0">Primary:&nbsp;</h4>
                   <p class="breed" id="primary-breed">Terrier</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Secondary:&nbsp;</h4>
+                  <h4 class="m-0">Secondary:&nbsp;</h4>
                   <p class="breed" id="secondary-breed">N/A</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Mixed:&nbsp;</h4>
+                  <h4 class="m-0">Mixed:&nbsp;</h4>
                   <p class="breed" id="is-mixed">No</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4 id="unknown">Unknown:&nbsp;</h4>
+                  <h4 id="unknown" class="m-0">Unknown:&nbsp;</h4>
                 </li>
               </ul>
 
@@ -197,17 +196,17 @@
                 <h3 class="is-size-5 has-text-centered">Color</h3>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Primary:&nbsp;</h4>
+                  <h4 class="m-0">Primary:&nbsp;</h4>
                   <p id="primary-color" class="color">White</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Secondary:&nbsp;</h4>
+                  <h4 class="m-0">Secondary:&nbsp;</h4>
                   <p id="secondary-color" class="color">N/A</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Tertiary:&nbsp;</h4>
+                  <h4 class="m-0">Tertiary:&nbsp;</h4>
                   <p id="tertiary-color" class="color">N/A</p>
                 </li>
               </ul>
@@ -277,6 +276,7 @@
 
         <footer class="modal-card-foot is-justify-content-space-between">
           <a id="adopt-url" class="button is-success" target="_blank">Adopt</a>
+
           <button class="button close">Close</button>
         </footer>
       </div>
@@ -294,7 +294,7 @@
     <link
       rel="stylesheet"
       href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css"
-    />
+    />    
     <script src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
 
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
