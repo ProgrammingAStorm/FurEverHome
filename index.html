@@ -11,6 +11,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
     />    
+
     <link 
       rel="stylesheet" 
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
@@ -18,223 +19,90 @@
       crossorigin="anonymous" 
       referrerpolicy="no-referrer" 
     />
-    <link
-      rel="stylesheet"
-      href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css"
-    />
-    <script src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
 
     <!-- Font Awesome link for pet icons-->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link 
+      rel="stylesheet" 
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
+      crossorigin="anonymous"
+    />
 
     <!-- link for favicon -->
-    <link rel="icon" type="image/x-icon" href="./assets/images/paw favicon.png">
+    <link 
+      rel="icon" 
+      type="image/x-icon"
+      href="./assets/images/paw favicon.png"
+    />
 
     <!-- CSS file link  -->
-
-    <link rel="stylesheet" href="./assets/css/stylesheet.css">
+    <link rel="stylesheet"
+      href="./assets/css/stylesheet.css"
+    />
   </head>
+
   <body>
-    <!-- Top Navigation bar of page  -->
-    <nav class="navBar p-3">
-      <p class= "field is-grouped is-grouped-centered"><i class="fas fa-solid fa-cat mx-5"></i>   FurEverHome   <i class="fas fa-solid fa-dog mx-5"></i>
+    <header class="has-background-info  p-5">
+      <p class= "field is-grouped is-grouped-centered has-text-weight-semibold is-size-1 is-size-3-mobile">
+        <i class="fas fa-solid fa-cat mr-1"></i>
+        FurEverHome   
+        <i class="fas fa-solid fa-dog ml-1"></i>
      </p>
-    </nav>
+    </header>
  
-    <!-- Search form    -->
-    <form>
-      <h2 class="field is-grouped has-text-left has-text-weight-bold mt-5 ml-5">
-        Search location for an adoptable pet:  
-      </h2>
-      <input
-        name="find-pet"
-        id="find-pet"
-        type="text"
-        size="90"
-        class="search-form justify-content-center mt-1 ml-5"
-      />
-      <button type="search" class="btn button is-dark button is-small ">Search</button>
-      <div id="fav-drop" class="dropdown">
-        <div class="dropdown-trigger">
-          <button class="button">
-            <span>Content</span>
-            <span class="icon is-small">
-              <i class="fas fa-angle-down"></i>
-            </span>
-          </button>
-        </div>
+    <form class="is-flex is-flex-direction-column is-align-items-flex-start align-items-center-mobile p-1 mt-4">
+      <div id="form-content" class="content is-flex is-flex-direction-column is-align-items-center border border-radius p-1">
+        <h2 class="field has-text-centered has-text-weight-bold is-size-3 is-size-5-mobile">
+          Search location for an adoptable pet:  
+        </h2>
+  
+        <div id="search" class="mb-3"></div>
 
-        <div class="dropdown-menu" id="dropdown-menu2">
-          <div class="dropdown-content favorites">
-
+        <button id="clear" class="button is-danger is-light is-size-5 mb-3">Clear Favorites</button>
+  
+        <div id="fav-drop" class="dropdown">
+          <div class="dropdown-trigger">
+            <button class="button is-primary is-light">
+              <span class="is-size-5">Favorites</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </button>
+          </div>
+  
+          <div class="dropdown-menu" id="dropdown-menu2">
+            <div class="dropdown-content favorites">
+  
+            </div>
           </div>
         </div>
       </div>
     </form>
  
-    <section class="section">
-      <main class="columns is-mobile">
-        <!--Responsive column sizing is super finicky.-->
-        <!--The favorites column can take 1/4 on desktop. At smaller sizes it gets too close to the cards, so at mobile width it shrinks to 2/5.-->
-        <div id="fav-sec" class="column is-one-fifth">
-          <h2 class="is-size-2 is-size-5-mobile has-text-centered title">Favorites</h2>
-          <div class="favorites is-flex is-flex-direction-column is-align-items-center"></div>
+    <section class="section p-1 mt-2">
+      <main class="columns is-mobile is-justify-content-space-between m-auto">
+        <div id="fav-sec" class="column is-one-fifth border-padding">
+          <div class="is-flex is-flex-direction-column is-align-items-center border border-radius">
+            <h2 class="is-size-2 is-size-5-mobile has-text-centered title">Favorites</h2>
+            <div class="favorites is-flex is-flex-direction-column is-align-items-center"></div>
+          </div>
         </div>
 
         <!--The cards are spaced well with auto-sizing until mobile lengths, then it takes too much space and needs to set to three-fifths.-->
-        <div class="column is-four-fifths-desktop is-full-mobile">  
-          <h2 class="title has-text-centered is-size-5-mobile">
-            <i class="fas fa-solid fa-paw mx-5"></i>
-            Pets Available for Adoption
-            <i class="fas fa-solid fa-paw mx-5"></i>
+        <div class="column is-four-fifths-desktop is-full-mobile is-flex is-flex-direction-column is-justify-content-space-between py-0 px-3">  
+          <h2 class="title is-flex is-justify-content-center is-size-5-mobile">
+            <i class="fas fa-solid fa-paw"></i>
+              <p class="m-0">Pets Available for Adoption</p>
+            <i class="fas fa-solid fa-paw"></i>
           </h2>
 
           <nav class="pagination" role="navigation" aria-label="pagination">
             <a class="pagination-previous">Previous</a>
             <a class="pagination-next">Next Page</a>
           </nav>
-          
-          <div id="card-container" class="columns is-mobile is-multiline">
-            <!--Column sizing of the cards within the card-container is also very finicky.
-            1/4 at desktop leaves them nicely spaced out, and full at mobile leaves them one at a time and well sized.
-            But, at tablet widths, there is enough space to have them 2x2 side-by-side, but the mobile styling is in effect.
-            For some reason the tablet styling is overridden by the mobile styling even at tablet widths.-->
-            <div class="column is-one-quarter-desktop is-half-mobile">
-              <!--These are only here to serve as templates for how the dynamic cards should look,
-              as well as to show off how the responsive styling looks with multiple cards.-->
-              <div class="card ml-5">
-                <header class="card-header">
-                  <h3 class="card-header-title">Pet Name</h3>
-                  <span class="icon heart">
-                    <i class="fas fa-heart"></i>
-                  </span>
-                </header>
-                <div class="card-image">
-                  <figure class="image is-square">
-                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
-                  </figure>
-                </div>
-                <div class="card-content p-2">
-                  <div class="content">
-                    <div class="is-flex is-justify-content-space-around">
-                      <p class="subtitle is-6 m-0">Breed</p>
-                      <p class="subtitle is-6 m-0">Gender</p>
-                    </div>
-                    
-                    <div>
-                      <ul class="is-flex is-justify-content-space-evenly m-0">
-                        <!--Only the first tag gets mt-1-->
-                        <li class="tag mt-1">tag</li>
-                        <li class="tag">tag</li>
-                        <li class="tag">tag</li>
-                      </ul>
-                    </div>
-                  </div>   
-                </div>
-              </div>
-            </div>
-
-            <div class="column is-one-quarter-desktop is-half-mobile">
-              <div class="card ml-5">
-                <header class="card-header">
-                  <h3 class="card-header-title">Pet Name</h3>
-                  <span class="icon heart">
-                    <i class="fas fa-heart"></i>
-                  </span>
-                </header>
-                <div class="card-image">
-                  <figure class="image is-square">
-                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
-                  </figure>
-                </div>
-                <div class="card-content p-2">
-                  <div class="content">
-                    <div class="is-flex is-justify-content-space-around">
-                      <p class="subtitle is-6 m-0">Breed</p>
-                      <p class="subtitle is-6 m-0">Gender</p>
-                    </div>
-                    
-                    <div>
-                      <ul class="is-flex is-justify-content-space-evenly m-0">
-                        <!--Only the first tag gets mt-1-->
-                        <li class="tag mt-1">tag</li>
-                        <li class="tag">tag</li>
-                        <li class="tag">tag</li>
-                      </ul>
-                    </div>
-                  </div>   
-                </div>
-              </div>
-            </div>
-            
-            <div class="column is-one-quarter-desktop is-half-mobile">
-              <div class="card ml-5">
-                <header class="card-header">
-                  <h3 class="card-header-title">Pet Name</h3>
-                  <span class="icon heart">
-                    <i class="fas fa-heart"></i>
-                  </span>
-                </header>
-                <div class="card-image">
-                  <figure class="image is-square">
-                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
-                  </figure>
-                </div>
-                <div class="card-content p-2">
-                  <div class="content">
-                    <div class="is-flex is-justify-content-space-around">
-                      <p class="subtitle is-6 m-0">Breed</p>
-                      <p class="subtitle is-6 m-0">Gender</p>
-                    </div>
-                    
-                    <div>
-                      <ul class="is-flex is-justify-content-space-evenly m-0">
-                        <!--Only the first tag gets mt-1-->
-                        <li class="tag mt-1">tag</li>
-                        <li class="tag">tag</li>
-                        <li class="tag">tag</li>
-                      </ul>
-                    </div>
-                  </div>   
-                </div>
-              </div>
-            </div>
-
-            <div class="column is-one-quarter-desktop is-half-mobile">
-              <div class="card ml-5">
-                <header class="card-header">
-                  <h3 class="card-header-title">Pet Name</h3>
-                  <span class="icon heart">
-                    <i class="fas fa-heart"></i>
-                  </span>
-                </header>
-                <div class="card-image">
-                  <figure class="image is-square">
-                    <img src="https://www.animatedimages.org/data/media/202/animated-dog-image-0387.gif" alt="animated-dog-image-0387" /></a>
-                  </figure>
-                </div>
-                <div class="card-content p-2">
-                  <div class="content">
-                    <div class="is-flex is-justify-content-space-around">
-                      <p class="subtitle is-6 m-0">Breed</p>
-                      <p class="subtitle is-6 m-0">Gender</p>
-                    </div>
-                    
-                    <div>
-                      <ul class="is-flex is-justify-content-space-evenly m-0">
-                        <!--Only the first tag gets mt-1-->
-                        <li class="tag mt-1">tag</li>
-                        <li class="tag">tag</li>
-                        <li class="tag">tag</li>
-                      </ul>
-                    </div>
-                  </div>   
-                </div>
-              </div>
-            </div>
-          </div>  
-  
+        
+          <div id="card-container" class="columns is-mobile is-multiline m-0 border border-radius"></div>
+        
           <nav class="pagination" role="navigation" aria-label="pagination">
             <a class="pagination-previous">Previous</a>
             <a class="pagination-next">Next Page</a>
@@ -281,7 +149,7 @@
             </header>
 
             <section class="initial is-flex flex-column-mobile is-justify-content-space-evenly pt-4 border-top">
-              <div class="is-flex flex-column-mobile is-flex-direction-column is-justify-content-space-between is-align-items-flex-end">
+              <div class="is-flex flex-column-mobile is-flex-direction-column is-justify-content-space-evenly">
                 <div class="is-flex">
                   <h3 class="m-0">Age:&nbsp;</h3>
                   <p class="age m-0 is-size-5 has-text-weight-medium">7</p>
@@ -298,15 +166,15 @@
                 </div>                
               </div>
 
-              <address class="contact is-flex is-flex-direction-column is-justify-content-space-between">
+              <address class="contact is-flex is-flex-direction-column is-align-items-center">
                 <h1>Contact Info</h1>
-                <p class="is-size-5 has-text-centered has-text-weight-medium">
-                  street <br>
-                  city state <br>
-                  zip <br>
-                  phone <br>
-                  <a href="mailto:">email</a>
-                </p>
+                <div class="is-size-5 has-text-centered has-text-weight-medium">
+                  <p id="street" class="m-0">street</p>
+                  <p id="city-state" class="m-0">city state</p>
+                  <p id="zip" class="m-0">zip</p> 
+                  <p id="phone" class="m-0">phone</p>
+                  <a id="email" class="m-0" href="mailto:">email</a>
+                </div>
               </address>
             </section>
 
@@ -315,22 +183,22 @@
                 <h3 class="is-size-5 has-text-centered">Breed</h3>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Primary:&nbsp;</h4>
+                  <h4 class="m-0">Primary:&nbsp;</h4>
                   <p class="breed" id="primary-breed">Terrier</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Secondary:&nbsp;</h4>
+                  <h4 class="m-0">Secondary:&nbsp;</h4>
                   <p class="breed" id="secondary-breed">N/A</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Mixed:&nbsp;</h4>
+                  <h4 class="m-0">Mixed:&nbsp;</h4>
                   <p class="breed" id="is-mixed">No</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4 id="unknown">Unknown:&nbsp;</h4>
+                  <h4 id="unknown" class="m-0">Unknown:&nbsp;</h4>
                 </li>
               </ul>
 
@@ -338,17 +206,17 @@
                 <h3 class="is-size-5 has-text-centered">Color</h3>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Primary:&nbsp;</h4>
+                  <h4 class="m-0">Primary:&nbsp;</h4>
                   <p id="primary-color" class="color">White</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Secondary:&nbsp;</h4>
+                  <h4 class="m-0">Secondary:&nbsp;</h4>
                   <p id="secondary-color" class="color">N/A</p>
                 </li>
 
                 <li class="is-flex is-size-6 has-text-weight-medium">
-                  <h4>Tertiary:&nbsp;</h4>
+                  <h4 class="m-0">Tertiary:&nbsp;</h4>
                   <p id="tertiary-color" class="color">N/A</p>
                 </li>
               </ul>
@@ -417,16 +285,30 @@
         </section>
 
         <footer class="modal-card-foot is-justify-content-space-between">
-          <a id="adopt-url" class="button is-success" target="_blank">Adopt url</a>
+          <a id="adopt-url" class="button is-success" target="_blank">Adopt</a>
+
           <button class="button close">Close</button>
         </footer>
       </div>
     </div>
 
-    <footer class="footer has-text-weight-bold has-text-centered"><i class="fas fa-solid fa-paw"></i> FurEverHome &copy 2022</footer>
+    <footer class="footer has-text-weight-bold has-text-centered pb-6"><i class="fas fa-solid fa-paw"></i> FurEverHome &copy 2022</footer>
+    
+    <script 
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" 
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer">
+    </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link
+      rel="stylesheet"
+      href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css"
+    />    
+    <script src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
+  
     <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+
     <script src="./assets/js/script.js"></script>
   </body>
 </html>

@@ -1,23 +1,30 @@
-.navBar {
-  width: 100vw;
-  height: 100px;
-  background-color: cornflowerblue;
-  font-size: 48px;
+.border {
+  border: solid 2px cornflowerblue;
 }
-
-body {
-  background-color: snow;
+.border-padding {
+  padding: 0 3rem;
 }
-
 .border-top {
   border-top: solid 2px lightslategray;
 }
+.border-radius {
+  border-radius: 5px;
+}
 
+@media screen and (max-width: 1024px) {
+  .border-padding {
+    padding: 0 0.75rem;
+  }
+}
 @media screen and (max-width: 455px) {
   .flex-column-mobile {
     flex-direction: column!important;
     align-items: center!important;
     margin: auto;
+  }
+
+  .align-items-center-mobile {
+    align-items: center!important;
   }
 
   .modal address {
