@@ -6,7 +6,7 @@ Made With:
 HTML, CSS, JS, petfinderAPI, USGS search API, and Bulma
 
 ## Screenshot
-![image](https://user-images.githubusercontent.com/13123028/169166044-3cb9aca9-c6d6-42fc-ad43-30cb0bf68884.png)
+![image](https://user-images.githubusercontent.com/13123028/169432331-e2d4032e-1515-45b5-b4f6-69f572194765.png)
 
 ## Deployment
 https://programmingastorm.github.io/FurEverHome/
