@@ -1,0 +1,42 @@
+.border {
+  border: solid 2px cornflowerblue;
+}
+.border-padding {
+  padding: 0 3rem;
+}
+.border-top {
+  border-top: solid 2px lightslategray;
+}
+.border-radius {
+  border-radius: 5px;
+}
+
+@media screen and (max-width: 1024px) {
+  .border-padding {
+    padding: 0 0.75rem;
+  }
+}
+@media screen and (max-width: 455px) {
+  .flex-column-mobile {
+    flex-direction: column!important;
+    align-items: center!important;
+    margin: auto;
+  }
+
+  .align-items-center-mobile {
+    align-items: center!important;
+  }
+
+  .card-header-title {
+    margin: 0!important;
+    padding: 0.325rem 0.5rem!important;
+  }
+
+  .modal address {
+    margin-top: 1.5rem;
+  }
+
+  .modal ul {
+    margin: 1.5rem 0!important;
+  }
+}

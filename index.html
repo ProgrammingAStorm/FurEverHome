@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FurEverHome</title>
+
+    <!-- Bulma and others cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />    
+
+    <link 
+      rel="stylesheet" 
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" 
+      integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer" 
+    />
+
+    <!-- Font Awesome link for pet icons-->
+    <link 
+      rel="stylesheet" 
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" 
+      crossorigin="anonymous"
+    />
+
+    <!-- link for favicon -->
+    <link 
+      rel="icon" 
+      type="image/x-icon"
+      href="./assets/images/paw favicon.png"
+    />
+
+    <!-- CSS file link  -->
+    <link rel="stylesheet"
+      href="./assets/css/stylesheet.css"
+    />
+  </head>
+
+  <body>
+    <header class="has-background-info  p-5">
+      <p class= "field is-grouped is-grouped-centered has-text-weight-semibold is-size-1 is-size-3-mobile">
+        <i class="fas fa-solid fa-cat mr-1"></i>
+        FurEverHome   
+        <i class="fas fa-solid fa-dog ml-1"></i>
+     </p>
+    </header>
+ 
+    <form class="is-flex is-flex-direction-column is-align-items-flex-start align-items-center-mobile p-1 mt-4">
+      <div id="form-content" class="content is-flex is-flex-direction-column is-align-items-center border border-radius p-1">
+        <h2 class="field has-text-centered has-text-weight-bold is-size-3 is-size-5-mobile">
+          Search location for an adoptable pet:  
+        </h2>
+  
+        <div id="search" class="mb-3"></div>
+
+        <button id="clear" class="button is-danger is-light is-size-5 mb-3">Clear Favorites</button>
+  
+        <div id="fav-drop" class="dropdown">
+          <div class="dropdown-trigger">
+            <button class="button is-primary is-light">
+              <span class="is-size-5">Favorites</span>
+              <span class="icon is-small">
+                <i class="fas fa-angle-down"></i>
+              </span>
+            </button>
+          </div>
+  
+          <div class="dropdown-menu" id="dropdown-menu2">
+            <div class="dropdown-content has-background-info-light border border-radius favorites">
+  
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+ 
+    <section class="section p-1 mt-2">
+      <main class="columns is-mobile is-justify-content-space-between m-auto">
+        <div id="fav-sec" class="column is-one-fifth border-padding">
+          <div class="is-flex is-flex-direction-column is-align-items-center border border-radius">
+            <h2 class="is-size-2 is-size-5-mobile has-text-centered title">Favorites</h2>
+            <div class="favorites is-flex is-flex-direction-column is-align-items-center"></div>
+          </div>
+        </div>
+
+        <!--The cards are spaced well with auto-sizing until mobile lengths, then it takes too much space and needs to set to three-fifths.-->
+        <div class="column is-four-fifths-desktop is-full-mobile is-flex is-flex-direction-column py-0 px-3">  
+          <h2 class="title is-flex is-justify-content-center is-align-self-flex-end is-size-5-mobile">
+            <i class="fas fa-solid fa-paw"></i>
+              <p class="m-0">Pets Available for Adoption</p>
+            <i class="fas fa-solid fa-paw"></i>
+          </h2>
+        
+          <div class="content border border-radius">
+            <nav class="pagination" role="navigation" aria-label="pagination">
+              <a class="pagination-previous button is-warning is-light">Previous</a>
+              <a class="pagination-next button is-warning is-light">Next Page</a>
+            </nav>
+
+            <div id="card-container" class="columns is-mobile is-multiline m-0"></div>
+
+            <nav class="pagination" role="navigation" aria-label="pagination">
+              <a class="pagination-previous button is-warning is-light">Previous</a>
+              <a class="pagination-next button is-warning is-light">Next Page</a>
+            </nav>
+          </div>
+        </div>
+      </main>
+    </section>
+
+    <section class="modal">
+      <div class="modal-background"></div>
+      <div class="modal-card">
+        <header class="modal-card-head">
+          <p class="name modal-card-title is-size-2 has-text-weight-normal">Pet Name</p>
+        </header>
+
+        <section class="modal-card-body">
+          <div class="content">
+            <header>
+              <figure class="image is-4by3">
+                <img src="" onerror="this.src='./assets/images/clipart2339515.png';" id="modal-image">
+              </figure>
+
+              <ul class="tags are-large">
+                <!-- <li class="tag">tag</li>
+                <li class="tag">tag</li>
+                <li class="tag">tag</li>
+                <li class="tag">tag</li>
+                <li class="tag">tag</li> -->
+              </ul>
+
+              <p class="description is-size-5">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rerum quod fugit dolorum sequi blanditiis officia sit mollitia quos, assumenda repudiandae provident at dignissimos, quo temporibus delectus iure earum cum laudantium.</p>
+
+              <div class="is-flex flex-column-mobile is-justify-content-space-evenly pb-4">
+                <div class="is-flex is-size-6 is-align-items-center">
+                  <h3 class="m-0">Distance:&nbsp;</h2>
+                  <p class="distance has-text-weight-medium m-0">1.5km</p>
+                </div>
+
+                <div class="is-flex is-size-6 is-align-items-center">
+                  <h3 class="m-0">Status:&nbsp;</h2>
+                  <p class="status has-text-weight-medium m-0">Adoptable</p>
+                </div>
+              </div>
+            </header>
+
+            <section class="initial is-flex flex-column-mobile is-justify-content-space-evenly pt-4 border-top">
+              <div class="is-flex flex-column-mobile is-flex-direction-column is-justify-content-space-evenly">
+                <div class="is-flex">
+                  <h3 class="m-0">Age:&nbsp;</h3>
+                  <p class="age m-0 is-size-5 has-text-weight-medium">7</p>
+                </div>
+
+                <div class="is-flex">
+                  <h3 class="m-0">Gender:&nbsp;</h3>
+                  <p class="gender m-0 is-size-5 has-text-weight-medium">Male</p>
+                </div>
+
+                <div class="is-flex">
+                  <h3 class="m-0">Size:&nbsp;</h3>
+                  <p class="size m-0 is-size-5 has-text-weight-medium">Medium</p>
+                </div>                
+              </div>
+
+              <address class="contact is-flex is-flex-direction-column is-align-items-center">
+                <h1>Contact Info</h1>
+                <div class="is-size-5 has-text-centered has-text-weight-medium">
+                  <p id="street" class="m-0">street</p>
+                  <p id="city-state" class="m-0">city state</p>
+                  <p id="zip" class="m-0">zip</p> 
+                  <p id="phone" class="m-0">phone</p>
+                  <a id="email" class="m-0" href="mailto:">email</a>
+                </div>
+              </address>
+            </section>
+
+            <section class="general is-flex flex-column-mobile border-top is-justify-content-space-evenly mt-4">
+              <ul class="breeds">
+                <h3 class="is-size-5 has-text-centered">Breed</h3>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4 class="m-0">Primary:&nbsp;</h4>
+                  <p class="breed" id="primary-breed">Terrier</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4 class="m-0">Secondary:&nbsp;</h4>
+                  <p class="breed" id="secondary-breed">N/A</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4 class="m-0">Mixed:&nbsp;</h4>
+                  <p class="breed" id="is-mixed">No</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4 id="unknown" class="m-0">Unknown:&nbsp;</h4>
+                </li>
+              </ul>
+
+              <ul class="colors is-align-self-center">
+                <h3 class="is-size-5 has-text-centered">Color</h3>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4 class="m-0">Primary:&nbsp;</h4>
+                  <p id="primary-color" class="color">White</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4 class="m-0">Secondary:&nbsp;</h4>
+                  <p id="secondary-color" class="color">N/A</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4 class="m-0">Tertiary:&nbsp;</h4>
+                  <p id="tertiary-color" class="color">N/A</p>
+                </li>
+              </ul>
+  
+              <div class="is-flex is-align-self-center m-5 p-2">
+                <h3 class="is-size-5">Coat:&nbsp;</h3>
+                <p class="coat is-size-6 has-text-weight-medium">Short</p>
+              </div>
+            </section>
+
+            <section class="specifics is-flex flex-column-mobile border-top is-justify-content-space-evenly mt-4">
+              <ul class="attributes">
+                <h3 class="is-size-5 has-text-centered">Attributes</h3>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>Declawed:&nbsp;</h4>
+                  <p id="is-declawed" class="attribute">No</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>House Trained:&nbsp;</h4>
+                  <p id="is-house-trained" class="attribute">Yes</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>Shots Current:&nbsp;</h4>
+                  <p id="has-shots" class="attribute">Yes</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>Spayed/Neutered:&nbsp;</h4>
+                  <p id="is-fixed" class="attribute">Yes</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>Special Needs:&nbsp;</h4>
+                  <p id="is-special-needs" class="attribute">No</p>
+                </li>
+              </ul>
+
+              <ul class="environments is-align-self-center">
+                <h3 class="is-size-5 has-text-centered pl-6 pr-6">Environment</h3>
+                
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>Cats:&nbsp;</h4>
+                  <p id="cat-env" class="environment">Yes</p>
+                </li>
+                
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>Dogs:&nbsp;</h4>
+                  <p id="dog-env" class="environment">Yes</p>
+                </li>
+
+                <li class="is-flex is-size-6 has-text-weight-medium">
+                  <h4>Children:&nbsp;</h4>
+                  <p id="child-env" class="environment">Yes</p>
+                </li>
+              </ul>
+            </section>
+
+            <footer class="footer pb-3 pt-5 border-top">
+              <h3 class="is-size-5 has-text-centered">Published:</h3>
+              <p id="publish-date" class="publish is-size-5 has-text-weight-medium has-text-centered">2022-05-15</p>
+            </footer>
+          </div>
+        </section>
+
+        <footer class="modal-card-foot is-justify-content-space-between">
+          <a id="adopt-url" class="button is-success" target="_blank">Adopt</a>
+
+          <button class="button close">Close</button>
+        </footer>
+      </div>
+    </section>
+
+    <footer class="footer has-text-weight-bold has-text-centered pb-6"><i class="fas fa-solid fa-paw"></i> FurEverHome &copy 2022</footer>
+    
+    <script 
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" 
+      integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
+      crossorigin="anonymous" 
+      referrerpolicy="no-referrer">
+    </script>
+
+    <link
+      rel="stylesheet"
+      href="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.css"
+    />    
+    <script src="https://txpub.usgs.gov/DSS/search_api/2.1/api/search_api.min.js"></script>
+  
+    <script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+
+    <script src="./assets/js/script.js"></script>
+  </body>
+</html>
