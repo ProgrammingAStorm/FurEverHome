@@ -1,6 +1,6 @@
 //Data Constants
-const ID = '5ojBPITunTAqqOTxJtnD0gylUmUo3CCjakTjPZsivTFN5D9wc4';
-const SECRET = 'j0E7b0TKzxU0qUmPNSGZJ7dsfKpEkgW7PKhr4bvt';
+const ID = 'h68edtg6sdq3zVMM21DYy23u8vH1KHbYsGmeSCLA56vGMGQrwF';
+const SECRET = 'WWfvgjXJd7Hhph0hWwaYSb9XxkyRet8xFCCmfW2p';
 
 //JQ Connstants
 const $cardContainer = $('#card-container');
